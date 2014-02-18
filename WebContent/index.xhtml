@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="LATIN1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Pode Melhorar</title>
+	<!-- Bootstrap core CSS -->
+	<link href="css/bootstrap.css" rel="stylesheet" />
+
+	<!-- Add custom CSS here -->
+	<link href="css/stylish-portfolio.css" rel="stylesheet" />
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+
+</h:head>
+
+<h:body>
+	<p:ajaxStatus onstart="statusDialog.show();"
+		onsuccess="statusDialog.hide();" />
+
+	<p:dialog modal="true" widgetVar="statusDialog" header="Processando.."
+		draggable="false" closable="false">
+		<p:graphicImage styleClass="img-portfolio img-responsive"
+			value="/img/aguarde.gif" />
+	</p:dialog>
+
+
+
+	<!-- Side Menu -->
+	<a id="menu-toggle" href="#" class="btn btn-primary btn-lg toggle"><i
+		class="fa fa-bars"></i></a>
+	<div id="sidebar-wrapper">
+		<ul class="sidebar-nav">
+			<a id="menu-close" href="#"
+				class="btn btn-default btn-lg pull-right toggle"><i
+				class="fa fa-times"></i></a>
+			<li class="sidebar-brand"><a href="#top">Escolha uma cidade</a></li>
+			<li><a href="#funciona">Como funciona</a></li>
+			<li><a href="#fotografe">Fotografe</a></li>
+			<li><a href="#apoio">Quem apoia</a></li>
+			<li><a href="#acompanhe">Acompanhe</a></li>
+
+		</ul>
+	</div>
+	<!-- /Side Menu -->
+
+	<!-- Full Page Image Header Area -->
+	<div id="top" class="header">
+		<div class="vert-text">
+			<h1>Pode Melhorar?</h1>
+			<h3>
+				<em>VOCÊ</em> fotografa, <em>NÓS</em> mostramos pra quem pode
+				resolver.
+			</h3>
+			<h:form>
+				<h3>
+					<h:outputLabel value="Cidade: " for="basicPojo" />
+					<p:autoComplete value="#{cidadeBean.selectedCidade}" id="basicPojo"
+						completeMethod="#{cidadeBean.completeCidade}" var="p"
+						itemLabel="#{p.nome}#{p.estado}" itemValue="#{p}"
+						converter="converter" forceSelection="true" minQueryLength="3" />
+				</h3>
+
+				<p:commandLink styleClass="btn btn-default btn-lg"
+					action="#{cidadeBean.escolheCidade}" ajax="false">Iniciar</p:commandLink>
+				<!--  <a href="#services" class="btn btn-default btn-lg">Iniciar</a> -->
+			</h:form>
+		</div>
+	</div>
+	<!-- /Full Page Image Header Area -->
+
+	<!-- Funciona -->
+	<div id="funciona" class="services">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4 text-center">
+					<h2>Como Funciona</h2>
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2 col-md-offset-2 text-center">
+
+					<div class="service-item">
+						<a href="#fotografe"> <i class="service-icon fa fa-camera"></i></a>
+						<h4>Fotografe o quê pode melhorar</h4>
+						<p>Utilize a câmara do seu dispositivo ou envie uma foto
+							armazenada em seu aparelho.</p>
+					</div>
+				</div>
+				<div class="col-md-2 text-center">
+					<div class="service-item">
+						<a href="#apoio"><i class="service-icon fa fa-envelope"></i></a>
+						<h4>Nós enviamos para quem pode resolver</h4>
+						<p>Um e-mail é enviado aos órgãos cadastrados na categoria que
+							você escolheu, para que eles saibam o que esta acontecendo e
+							possam tomar as providências necessárias.</p>
+					</div>
+				</div>
+				<div class="col-md-2 text-center">
+					<div class="service-item">
+						<a href="#acompanhe"><i class="service-icon fa fa-check"></i></a>
+						<h4>Acompanhe suas sugestões</h4>
+						<p>Você cadastra seu e-mail para acompanhar o andamento de sua
+							sugestão. Seu e-mail não será divulgado.</p>
+					</div>
+				</div>
+				<div class="col-md-2 text-center">
+					<div class="service-item">
+						<a href="#apoio"><i class="service-icon fa fa-thumbs-up"></i></a>
+						<h4>Apóie as sugestões de outros</h4>
+						<p>Veja as sugestões por assunto e local, e diga o que você
+							acha.</p>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="text-center">
+					<img src="img/funciona.png" class="img-portfolio img-responsive"
+						alt="" />
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Services -->
+
+	<!-- Fotografe -->
+	<div id="fotografe" class="intro">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 text-center">
+					<h2>Pode melhorar! Então fotografe!</h2>
+					<p class="lead">
+						Um e-mail é enviado os apoiadores cadastrados para que eles saibam
+						o que esta acontecendo e possam tomar as providências necessárias.<a
+							target="_blank" href="http://www.google.com.br/">Termo de uso</a>.
+					</p>
+					<p class="lead">Selecione uma cidade para iniciar.</p>
+					<span class="input-xlarge"> <h:form>
+							<h3>
+								<h:outputLabel value="Cidade: " for="basicPojo" />
+								<p:autoComplete value="#{cidadeBean.selectedCidade}"
+									id="basicPojo" completeMethod="#{cidadeBean.completeCidade}"
+									var="p" itemLabel="#{p.nome}" itemValue="#{p}"
+									converter="converter" forceSelection="true" minQueryLength="3" />
+							</h3>
+
+							<p:commandLink styleClass="btn btn-default btn-lg"
+								action="#{cidadeBean.escolheCidade}" ajax="false">Iniciar</p:commandLink>
+							<!--  <a href="#services" class="btn btn-default btn-lg">Iniciar</a> -->
+						</h:form>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Fotografe -->
+
+	<!-- Callout 
+	<div class="callout" id="acompanhe">
+		<div class="vert-text">
+
+			<h1>A Dramatic Text Area</h1>
+		</div>
+	</div> -->
+	<!-- /Callout -->
+
+
+
+	<!-- Apoio -->
+	<div class="call-to-action" id="apoio">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 text-center">
+
+
+					
+
+
+
+
+
+					<h3>Veja quem esta apoiando esta iniciativa.</h3>
+					<a href="#" class="btn btn-lg btn-default"><img
+						src="imgApoio/logo1.png" alt="" /></a> <a href="#"
+						class="btn btn-lg btn-primary"><img src="imgApoio/banco.png"
+						alt="" /></a> <a href="#" class="btn btn-lg btn-default"><img
+						src="imgApoio/logo2.png" alt="" /></a> <a href="#"
+						class="btn btn-lg btn-primary"><img
+						src="imgApoio/prefeitura.png" alt="" /></a> <a href="#"
+						class="btn btn-lg btn-default"><img src="imgApoio/logo3.png"
+						alt="" /></a>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Apoio -->
+
+	<!-- Acompanhe -->
+	<div id="acompanhe" class="portfolio">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4 text-center">
+
+					<h2>Acompanhe</h2>
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-2 text-center">
+					<div class="portfolio-item">
+						<a href="#"> <img class="img-portfolio img-responsive"
+							src="img/portfolio-1.jpg" />
+						</a>
+						<h4>Cityscape</h4>
+					</div>
+				</div>
+				<div class="col-md-4 text-center">
+					<div class="portfolio-item">
+						<a href="#"> <img class="img-portfolio img-responsive"
+							src="img/portfolio-2.jpg" />
+						</a>
+						<h4>Is That On Fire?</h4>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 col-md-offset-2 text-center">
+					<div class="portfolio-item">
+						<a href="#"> <img class="img-portfolio img-responsive"
+							src="img/portfolio-3.jpg" />
+						</a>
+						<h4>Stop Sign</h4>
+					</div>
+				</div>
+				<div class="col-md-4 text-center">
+					<div class="portfolio-item">
+						<a href="#"> <p:graphicImage
+								styleClass="img-portfolio img-responsive"
+								value="/img/aguarde.gif" />
+						</a>
+						<h4>Narrow Focus</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Acompanhe -->
+
+	<!-- Map 
+	<div id="contact" class="map">
+		<iframe width="100%" height="100%" frameborder="0" scrolling="no"
+			marginheight="0" marginwidth="0"
+			src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A&amp;output=embed"></iframe>
+		<br /> <small> <a
+			href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A"></a>
+		</small>
+
+	</div>-->
+	<!-- /Map -->
+
+	<!-- Dialog Cam -->
+	<p:dialog id="modalDialog" header="Fotografe" widgetVar="dlg2"
+		modal="true" height="280" resizable="false">
+		<h:form>
+			<p:photoCam widgetVar="pc" listener="#{photoCamBean.oncapture}" />
+			<!-- update="photos" -->
+
+			<p:commandButton type="button" value="Capture"
+				onclick="PF('pc').capture()" />
+
+		</h:form>
+	</p:dialog>
+	<!-- /Dialog Cam -->
+
+	<!-- Dialog File -->
+	<p:dialog id="modalDialog2" widgetVar="fileUploadDialog" modal="true"
+		height="200" width="280" resizable="false">
+		<h:form>
+			<h:outputLabel value="Descrição:" />
+			<p:inputText label="descrição"
+				value="#{fileUploadController.sugestao.descricao}" />
+			<h:outputLabel value="Assunto:" />
+			<p:inputText label="assunto"
+				value="#{fileUploadController.sugestao.assunto.descricao}" />
+			<h:outputLabel value="Cidade:" />
+			<p:inputText label="cidade"
+				value="#{fileUploadController.sugestao.cidade.nome}" />
+			<h:outputLabel value="Local:" />
+			<p:inputText label="local, rua ou bairro"
+				value="#{fileUploadController.sugestao.local}" />
+
+			<p:fileUpload
+				fileUploadListener="#{fileUploadController.handleFileUpload}"
+				label="Imagem" mode="advanced" update="messages" auto="false"
+				sizeLimit="1000000" allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+				dragDropSupport="false"
+				invalidSizeMessage="Tamanha maior que o permitido!"
+				invalidFileMessage="Extensão não Permitida" uploadLabel="Enviar"
+				requiredMessage="Selecione uma imagem." />
+
+			<p:growl id="messages" showDetail="true" />
+
+
+
+		</h:form>
+	</p:dialog>
+	<!-- /Dialog File -->
+
+
+
+
+	<!-- Footer -->
+	<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 text-center">
+				<ul class="list-inline">
+					<li><i class="fa fa-facebook fa-3x"></i></li>
+					<li><i class="fa fa-twitter fa-3x"></i></li>
+					<li><i class="fa fa-dribbble fa-3x"></i></li>
+				</ul>
+				<div class="top-scroll">
+					<a href="#top"><i class="fa fa-circle-arrow-up scroll fa-4x"></i></a>
+				</div>
+
+				<p>Copyright &copy; Company 2013</p>
+			</div>
+		</div>
+	</div>
+	</footer>
+	<!-- /Footer -->
+
+
+
+	<!-- Custom JavaScript for the Side Menu and Smooth Scrolling -->
+	<script>
+		$("#menu-close").click(function(e) {
+			e.preventDefault();
+			$("#sidebar-wrapper").toggleClass("active");
+		});
+	</script>
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#sidebar-wrapper").toggleClass("active");
+		});
+	</script>
+	<script>
+		$(function() {
+			$('a[href*=#]:not([href=#])')
+					.click(
+							function() {
+								if (location.pathname.replace(/^\//, '') == this.pathname
+										.replace(/^\//, '')
+										|| location.hostname == this.hostname) {
+
+									var target = $(this.hash);
+									target = target.length ? target
+											: $('[name=' + this.hash.slice(1)
+													+ ']');
+									if (target.length) {
+										$('html,body').animate({
+											scrollTop : target.offset().top
+										}, 1000);
+										return false;
+									}
+								}
+							});
+		});
+	</script>
+
+</h:body>
+
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="1.0"
+	xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd">
+
+	<persistence-unit name="sistemaPU">
+
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		
+		<class>sistema.com.br.entity.Usuario</class>
+		<class>sistema.com.br.entity.Perfil</class>
+		<class>sistema.com.br.entity.Sugestao</class>
+		<class>sistema.com.br.entity.Cidade</class>
+		<class>sistema.com.br.entity.Assunto</class>
+		<class>sistema.com.br.entity.Foto</class>
+		<class>sistema.com.br.entity.Orgao</class>
+		<class>sistema.com.br.entity.Pessoa</class>
+		<class>sistema.com.br.entity.GestorPublico</class>
+
+		<properties>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect" />
+			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver" />
+ 			<property name="hibernate.connection.url" value="jdbc:postgresql://localhost:5432/podemelhorar" />
+			<property name="hibernate.connection.username" value="postgres" />
+ 			<property name="hibernate.connection.password" value="123" /> 
+			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.show_sql" value="true"/>
+			<property name="hibernate.format_sql" value="true"/>
+		</properties>
+
+	</persistence-unit>
+</persistence>

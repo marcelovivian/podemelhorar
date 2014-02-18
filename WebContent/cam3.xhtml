@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="LATIN1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Pode Melhorar</title>
+	<h:outputScript name="locale.js" library="js" />
+	<link rel="shortcut icon" href="/sisge/resources/img/favicon.ico" />
+	<!-- 
+	<link href="css/stylish-portfolio.css" rel="stylesheet" />
+	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+	 -->
+</h:head>
+
+<h:body>
+	<style type="text/css">
+.photo {
+	width: 400px;
+	height: 250px;
+}
+</style>
+	<h:form id="form">
+
+		<h:panelGrid columns="3">
+			<h:outputLabel for="name" value="Name: *" />
+			<p:inputText id="name" value="#{buttonBean.text}" label="name"
+				required="true" requiredMessage="You must type something!" />
+			<p:commandButton value="Submit" update="bottomPanel"
+				oncomplete="bottomBar.show();" />
+		</h:panelGrid>
+
+		<p:notificationBar position="top" effect="slide" widgetVar="topBar"
+			styleClass="top">
+			<h:outputText
+				value="What PrimeFaces has so far is just the beginning!"
+				style="color:#FFCC00;font-size:36px;" />
+		</p:notificationBar>
+
+		<p:notificationBar position="bottom" effect="fade"
+			widgetVar="bottomBar" styleClass="bottom">
+			<f:facet name="close">
+				<p:graphicImage value="/images/closebar.png" />
+			</f:facet>
+
+			<h:panelGroup id="bottomPanel" style="margin-right:200px;">
+				<p:messages />
+				<h:outputText value="Welcome #{buttonBean.text}"
+					rendered="#{not empty buttonBean.text}" />
+			</h:panelGroup>
+		</p:notificationBar>
+	</h:form>
+
+	<h3>Displaying Any Content</h3>
+
+	<a href="#" onclick="topBar.show()">Show Top Bar</a>
+	<a href="#" onclick="topBar.hide()">Hide Top Bar</a>
+
+
+	<h3>Vertical</h3>
+	<p:carousel itemStyleClass="photo" autoPlayInterval="4000"
+		numVisible="1" effect="easeInStrong" vertical="true" circular="true">
+		<p:graphicImage value="/photocam/pioneiros1.png" />
+		<p:graphicImage value="/photocam/pioneiros2.png" />
+		<p:graphicImage value="/photocam/pioneiros3.png" />
+		<p:graphicImage value="/photocam/pioneiros4.png" />
+	</p:carousel>
+
+	<h3>Vertical 2</h3>
+	<p:carousel itemStyleClass="photo" autoPlayInterval="4000"
+		numVisible="1" effect="easeInStrong" vertical="true" circular="true">
+		<p:graphicImage value="/photocam/pioneiros1.png" />
+		<p:graphicImage value="/photocam/#{s.foto}" />
+		<h:outputText value="#{s.foto}" />
+		<h:outputText value="#{s.dataRegistro}" />
+
+	</p:carousel>
+
+	<h3>Visible Items</h3>
+	<p:carousel id="smallCarousel" value="#{fileUploadController.sugestoesSaude}" var="s"
+		itemStyleClass="photo" numVisible="1">
+		<h:panelGrid columns="1" style="width:100%" cellpadding="5">
+			<p:graphicImage value="/photocam/#{s.foto}" />
+		<h:outputText value="#{s.foto}" />
+		<h:outputText value="#{s.dataRegistro}" />
+		</h:panelGrid>
+	</p:carousel>
+	
+	<h:form>  
+    <p:dataTable var="s" value="#{fileUploadController.sugestoesSaude}">  
+        <p:column headerText="Model">  
+            <p:graphicImage value="/photocam/#{s.foto}" />
+        </p:column>  
+  
+        <p:column headerText="Year">  
+            <h:outputText value="#{s.foto}" />  
+        </p:column>  
+  
+        <p:column headerText="Manufacturer">  
+            <h:outputText value="#{s.dataRegistro}" />  
+        </p:column>  
+  
+    </p:dataTable>  
+</h:form>
+
+</h:body>
+</html>
