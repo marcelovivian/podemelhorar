@@ -25,27 +25,70 @@
 .photo {
 	width: 350px;
 	height: 230px;
-	}
+}
+
 .ui-carousel .ui-carousel-header {
-    height: 30px;
-    }
+	height: 30px;
+}
 </style>
 	<!-- Side Menu -->
-	<a id="menu-toggle" href="#" class="btn btn-primary btn-lg toggle"><i
-		class="fa fa-bars"></i></a>
+	<a id="menu-toggle" href="#" class="btn btn-primary btn-lg toggle">Menu&nbsp;
+		<i class="fa fa-bars"></i>
+	</a>
 	<div id="sidebar-wrapper">
 		<ul class="sidebar-nav">
 			<a id="menu-close" href="#"
-				class="btn btn-default btn-lg pull-right toggle"><i
+				class="btn btn-default btn-lg pull-right toggle"> <i
 				class="fa fa-times"></i></a>
-			<li class="sidebar-brand"><a href="index.jsf">Trocar cidade</a></li>
-			<li><a href="#about">Fotografe</a></li>
-			<li><a href="#portfolio">Apóie</a></li>
-			<li><a href="#apoio">Quem apoia</a></li>
-			<li><a href="#services">Como funciona</a></li>
+			<li class="sidebar-brand"><a href="index.jsf">Escolha a	Cidade</a></li>
+			<li class="sidebar-brand"><a href="#portfolio">Apóie</a></li>		
+			<li class="sidebar-brand"><a href="#about">Fotografe</a></li>
+			<li class="sidebar-brand"><a href="#apoio">Quem apoia</a></li>
+			<li class="sidebar-brand"><a href="login.jsf" title="Área destinada ao administrador e Apoiador">Entrar</a></li>
 		</ul>
 	</div>
-	<!-- /Side Menu -->
+
+	<!-- Posts -->
+	<div id="portfolio" class="portfolio">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4 text-center">
+
+					<h2>
+						Acompanhe o que Pode Melhorar em
+						<h:outputText value="#{cidadeBean.selectedCidade.nome}" />
+					</h2>
+
+				</div>
+			</div>
+			
+<!-- 			Aqui será as sugestões -->
+			<div class="row">
+				<div align="center">
+					<div class="portfolio-item">
+				
+<!-- 						<p:galleria value="#{fileUploadController}" -->
+<!-- 							var="image" panelWidth="500" panelHeight="313" showCaption="true"> -->
+<!-- 							<p:graphicImage value="/photocam/#{image}" styleClass="img-portfolio img-responsive" -->
+<!-- 								title="#{image}" /> -->
+<!-- 						</p:galleria> -->
+
+					</div>
+					
+					<h:form style="font-size: 14px;">
+						<p:watermark value="Filtrar Assunto" for="assunto1" />
+						<p:autoComplete styleClass="lead"
+							value="#{fileUploadController.assuntoSelecionado}" id="assunto1"
+							completeMethod="#{fileUploadController.completeAssunto}" var="p"
+							itemLabel="#{p.descricao}" itemValue="#{p}" dropdown="true"
+							converter="converter" forceSelection="true" minQueryLength="3" />
+			</h:form>
+				</div>
+			</div>
+					
+		</div>
+	</div>
+	<!-- /Posts -->
 
 	<!-- Intro -->
 	<div id="about" class="intro">
@@ -56,42 +99,46 @@
 						<h:outputText value="#{cidadeBean.selectedCidade.nome}" />
 						pode melhorar! Então fotografe!
 					</h2>
+
 					<p class="lead">
 						Um e-mail é enviado aos apoiadores cadastrados no assunto que você
-						escolheu, para que eles saibam o que esta acontecendo e possam
-						tomar as providências necessárias. Ao enviar a imagem você estará
-						aceitando o <a target="_blank" href="http://www.google.com/">termo
+						escolheu, para que eles saibam o que está acontecendo e possam
+						tomar as providências necessárias. Ao enviar a imagem você
+						concorda com o <a target="_blank" href="http://www.google.com/">termo
 							de uso</a>.
 					</p>
+
 					<span class="input-xlarge text-left"> <h:form
 							enctype="multipart/form-data">
-							<h:outputLabel value="Assunto: " for="assunto"
-								styleClass="lead text-left" />
-							<p:autoComplete styleClass="lead"
+
+							<h:outputLabel value="Assunto:" for="assunto" styleClass="lead" />
+							<p:autoComplete styleClass="lead" style="margin-left: 4%;"
 								value="#{fileUploadController.assuntoSelecionado}" id="assunto"
 								completeMethod="#{fileUploadController.completeAssunto}" var="p"
 								itemLabel="#{p.descricao}" itemValue="#{p}" dropdown="true"
 								converter="converter" forceSelection="true" minQueryLength="3" />
+							<p />
 
-							<p class="lead text-left">
-								<h:outputLabel value="Descrição:" />
-								<p:inputText id="descricao"
-									value="#{fileUploadController.sugestao.descricao}" />
-								<p:watermark for="descricao" value="descreva brevemente" />
-							</p>
+							<h:outputLabel value="Descrição:" styleClass="lead" />
+							<p:inputTextarea maxlength="200" styleClass="lead"
+								autoResize="true" id="descricao"
+								value="#{fileUploadController.sugestao.descricao}"
+								style="margin-left: 1%;" />
+							<p:watermark for="descricao" value="descreva brevemente" />
+							<p />
 
-							<p class="lead text-left">
-								<h:outputLabel value="Local:" />
-								<p:inputText id="local"
-									value="#{fileUploadController.sugestao.local}" />
-								<p:watermark for="local" value="rua ou bairro" />
-							</p>
-							<p class="lead text-left">
-								<h:outputLabel value="Seu e-mail:" />
-								<p:inputText id="email"
-									value="#{fileUploadController.sugestao.email}" />
-								<p:watermark for="email" value="não será divulgado" />
-							</p>
+							<h:outputLabel value="Local:" styleClass="lead" />
+							<p:inputText id="local" styleClass="lead"
+								style="margin-left: 9%;"
+								value="#{fileUploadController.sugestao.local}" />
+							<p:watermark for="local" value="nome, bairro ou rua" />
+							<p />
+
+							<h:outputLabel value="Seu e-mail:" styleClass="lead" />
+							<p:inputText id="email" styleClass="lead"
+								value="#{fileUploadController.sugestao.email}" />
+							<p:watermark for="email" value="não será divulgado" />
+							<p />
 
 							<p:fileUpload
 								fileUploadListener="#{fileUploadController.enviarArquivo}"
@@ -103,10 +150,12 @@
 								cancelLabel="Cancelar" requiredMessage="Selecione uma imagem." />
 
 							<p:growl id="messages" showDetail="true" />
+							<br />
 
-							<p:commandButton value="Enviar Sugestão"
-								action="#{fileUploadController.salvarSugestao}"
-								oncomplete="enviadoDialog.show();" />
+							<div align="center">
+								<p:commandButton value="Enviar Sugestão"
+									action="#{fileUploadController.salvarSugestao}" />
+							</div>
 
 						</h:form>
 					</span>
@@ -116,221 +165,13 @@
 	</div>
 	<!-- /Intro -->
 	
-	<!-- Portfolio -->
-	<div id="portfolio" class="portfolio">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4 col-md-offset-4 text-center">
-
-					<h2>
-						Acompanhe o que Pode Melhorar em
-						<h:outputText value="#{cidadeBean.selectedCidade.nome}" />
-					</h2>
-
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4 col-md-offset-2">
-					<div class="portfolio-item">
-						<p:carousel autoPlayInterval="4000" itemStyleClass="photo"
-							value="#{fileUploadController.sugestoesSaude}" var="s"
-							numVisible="1" effect="easeInStrong" vertical="true"
-							circular="true">
-							
-								<p:graphicImage styleClass="img-portfolio img-responsive"
-									value="/photocam/#{s.foto.nomeArquivo}" />
-															
-						</p:carousel>
-
-						<h4>Saúde</h4>
-					</div>
-				</div>
-				<div class="col-md-4 text-center">
-					<div class="portfolio-item">
-						<p:carousel itemStyleClass="photo" autoPlayInterval="4000"
-							value="#{fileUploadController.sugestoesSaude}" var="s"
-							numVisible="1" effect="easeInStrong" vertical="true"
-							circular="true">
-							
-								<p:graphicImage styleClass="img-portfolio img-responsive"
-									value="/photocam/#{s.foto.nomeArquivo}" />
-								<h:outputText value="#{s.descricao}" />
-								<h:outputText value="#{s.dataRegistro.time}"> <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"/> </h:outputText>
-							
-						</p:carousel>
-						<h4>Is That On Fire?</h4>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4 col-md-offset-2 text-center">
-					<div class="portfolio-item">
-						<a href="#"> <img class="img-portfolio img-responsive"
-							src="img/portfolio-3.jpg" />
-						</a>
-						<h4>Stop Sign</h4>
-					</div>
-				</div>
-				<div class="col-md-4 text-center">
-					<div class="portfolio-item">
-						<a href="#"> <img class="img-portfolio img-responsive"
-							src="img/portfolio-4.jpg" />
-						</a>
-						<h4>Narrow Focus</h4>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- /Portfolio -->
-
-	<!-- Portfolio -->
-	<div id="portfolio" class="portfolio">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4 col-md-offset-4 text-center">
-
-					<h2>
-						Acompanhe o que Pode Melhorar em
-						<h:outputText value="#{cidadeBean.selectedCidade.nome}" />
-					</h2>
-
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4 col-md-offset-2 text-center">
-					<div class="portfolio-item">
-						<a href="#"> <img class="img-portfolio img-responsive"
-							src="img/portfolio-1.jpg" />
-						</a>
-						<h4>Cityscape</h4>
-					</div>
-				</div>
-				<div class="col-md-4 text-center">
-					<div class="portfolio-item">
-						<a href="#"> <img class="img-portfolio img-responsive"
-							src="img/portfolio-2.jpg" />
-						</a>
-						<h4>Is That On Fire?</h4>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4 col-md-offset-2 text-center">
-					<div class="portfolio-item">
-						<a href="#"> <img class="img-portfolio img-responsive"
-							src="img/portfolio-3.jpg" />
-						</a>
-						<h4>Stop Sign</h4>
-					</div>
-				</div>
-				<div class="col-md-4 text-center">
-					<div class="portfolio-item">
-						<a href="#"> <img class="img-portfolio img-responsive"
-							src="img/portfolio-4.jpg" />
-						</a>
-						<h4>Narrow Focus</h4>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- /Portfolio -->
-
-	<!-- Call to Action -->
-	<div class="call-to-action" id="apoio">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-6 col-md-offset-3 text-center">
-
-					<h3>
-						Veja quem esta apoiando esta iniciativa em
-						<h:outputText value="#{cidadeBean.selectedCidade.nome}" />
-						.
-					</h3>
-					<a href="#" class="btn btn-lg btn-default"><img
-						src="imgApoio/vereador.png" alt="" />100%</a> <a href="#"
-						class="btn btn-lg btn-default"><img src="imgApoio/banco.png"
-						alt="" />89%</a> <a href="#" class="btn btn-lg btn-default"><img
-						src="imgApoio/logo2.png" alt="" />88%</a> <a href="#"
-						class="btn btn-lg btn-default"><img
-						src="imgApoio/prefeitura.png" alt="" />20%</a> <a href="#"
-						class="btn btn-lg btn-default"><img src="imgApoio/logo3.png"
-						alt="" />10%</a>
-
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- /Call to Action -->
-
-	<!-- Map 
-	<div id="contact" class="map">
-		<iframe width="100%" height="100%" frameborder="0" scrolling="no"
-			marginheight="0" marginwidth="0"
-			src="https://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A&amp;output=embed"></iframe>
-		<br /> <small> <a
-			href="https://maps.google.com/maps?f=q&amp;source=embed&amp;hl=en&amp;geocode=&amp;q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;aq=0&amp;oq=twitter&amp;sll=28.659344,-81.187888&amp;sspn=0.128789,0.264187&amp;ie=UTF8&amp;hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&amp;t=m&amp;z=15&amp;iwloc=A"></a>
-		</small>
-
-	</div>-->
-	<!-- /Map -->
-
-	<!-- Services -->
-	<div id="services" class="services">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-4 col-md-offset-4 text-center">
-					<h2>Como Funciona</h2>
-
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-2 col-md-offset-2 text-center">
-
-					<div class="service-item">
-						<a href="#about"> <i class="service-icon fa fa-camera"></i></a>
-						<h4>Fotografe o quê pode melhorar</h4>
-						<p>Utilize a câmara do seu dispositivo ou envie uma foto
-							armazenada em seu aparelho.</p>
-					</div>
-				</div>
-				<div class="col-md-2 text-center">
-					<div class="service-item">
-						<a href="#apoio"><i class="service-icon fa fa-envelope"></i></a>
-						<h4>Nós enviamos para quem pode ajudar</h4>
-						<p>Um e-mail é enviado aos apoiadores cadastrados para que
-							eles saibam o que esta acontecendo e possam tomar as providências
-							necessárias.</p>
-					</div>
-				</div>
-				<div class="col-md-2 text-center">
-					<div class="service-item">
-						<a href="#portfolio"><i class="service-icon fa fa-check"></i></a>
-						<h4>Acompanhe suas sugestões</h4>
-						<p>Você cadastra seu e-mail para acompanhar o andamento de sua
-							sugestão. Seu e-mail não será divulgado.</p>
-					</div>
-				</div>
-				<div class="col-md-2 text-center">
-					<div class="service-item">
-						<a href="#portfolio"><i class="service-icon fa fa-thumbs-up"></i></a>
-						<h4>Apóie as sugestões de outros</h4>
-						<p>Veja as sugestões por assunto, e apóie compartilhando na
-							rede social.</p>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="text-center">
-					<img src="img/funciona.png" class="img-portfolio img-responsive"
-						alt="" />
-
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- /Services -->
+	<!-- Callout fundo -->
+	<div class="callout" id="acompanhe">
+		<div class="vert-text" />
+		<h3>Boa Vista - RR</h3>
+		
+	</div>	
+	
 
 	<!-- Dialog Enviado -->
 
@@ -347,16 +188,31 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3 text-center">
+
 				<ul class="list-inline">
-					<li><i class="fa fa-facebook fa-3x"></i></li>
-					<li><i class="fa fa-twitter fa-3x"></i></li>
-					<li><i class="fa fa-dribbble fa-3x"></i></li>
+					<h:graphicImage value="/img/face2.png"
+						styleClass="icon-list-inline" title="Nossa Página no Facebook" />
+					<h:graphicImage value="/img/twitter2.png"
+						styleClass="icon-list-inline" title="Siga-nos no Twitter" />
+					<!-- 				<h:graphicImage value="/img/instagram2.png" styleClass="icon-list-inline" /> -->
+					<h:graphicImage value="/img/linkedin2.png"
+						styleClass="icon-list-inline" title="Faça Parte de Nossa Network" />
+					<h:graphicImage value="/img/skype2.png"
+						styleClass="icon-list-inline" title="Contate-nos pelo Skype" />
+					<h:graphicImage value="/img/youtube2.png"
+						styleClass="icon-list-inline" title="Veja nossos vídeos" />
+
+					<!-- 					<li><i class="fa fa-facebook fa-3x"></i></li> -->
+					<!-- 					<li><i class="fa fa-twitter fa-3x"></i></li> -->
+					<!-- 					<li><i class="fa fa-skype fa-3x"></i></li> -->
 				</ul>
 				<div class="top-scroll">
 					<a href="#top"><i class="fa fa-circle-arrow-up scroll fa-4x"></i></a>
 				</div>
+				<hr />
+				<p>Copyright &copy; 2014 HMTec Todos os direitos reservados</p>
 
-				<p>Copyright &copy; Company 2013</p>
+				<p>Logomarca da empresa</p>
 			</div>
 		</div>
 	</div>

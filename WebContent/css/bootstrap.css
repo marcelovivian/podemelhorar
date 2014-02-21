@@ -576,6 +576,10 @@ cite {
   text-align: center;
 }
 
+.text-justify {
+  text-align: justify;
+}
+
 .page-header {
   padding-bottom: 9px;
   margin: 40px 0 20px;
@@ -598,6 +602,10 @@ ol ol {
 .list-unstyled {
   padding-left: 0;
   list-style: none;
+}
+
+.icon-list-inline {
+	width: 50px;
 }
 
 .list-inline {
