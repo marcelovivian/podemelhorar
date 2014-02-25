@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="LATIN1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Pode Melhorar</title>
+	<!-- Bootstrap core CSS -->
+	<link href="../css/bootstrap.css" rel="stylesheet" />
+
+	<!-- Add custom CSS here -->
+	<link href="../css/stylish-portfolio.css" rel="stylesheet" />
+	<link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+
+</h:head>
+
+<h:body>
+
+	<!-- Side Menu -->
+	<a id="menu-toggle" href="#" class="btn btn-primary btn-lg toggle">Menu&nbsp;<i
+		class="fa fa-bars"></i></a>
+	<div id="sidebar-wrapper">
+		<ul class="sidebar-nav">
+			<a id="menu-close" href="#"
+				class="btn btn-default btn-lg pull-right toggle"> <i
+				class="fa fa-times"></i></a>
+			<li class="sidebar-brand"><a href="#top">Escolha a Cidade</a></li>
+			<li class="sidebar-brand"><a href="#funciona">Como Funciona</a></li>
+			<li class="sidebar-brand"><a href="#apoio">Quem Apoia</a></li>
+			<li class="sidebar-brand"><a href="login.jsf"
+				title="Área destinada ao administrador e Apoiador">Entrar</a></li>
+			<li class="sidebar-brand"><a href="site/novoApoiador.jsf"
+				title="Área destinada ao administrador e Apoiador">Novo Apoiador</a></li>
+
+		</ul>
+	</div>
+	<!-- /Side Menu -->
+
+	<!-- Intro -->
+	<div id="about" class="intro">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6 col-md-offset-3 text-center">
+					<h2>Você pode ajudar a melhorar. Cadastre-se como apoiador.</h2>
+
+					<p class="lead text-justify">Você receberá um e-mail com as
+						sugestões cadastradas para a cidades a assuntos de seu interesse.</p>
+					<p class="lead text-justify">
+						Seu nome será
+						divulgado no Ranking dos Apoiadores.</p>
+					<p class="lead text-justify"> O cidadão que fez a
+						sugestão receberá uma mensagem com a sua resposta. </p>
+					
+					
+					<span class="input-xlarge text-left"> 
+					
+										
+					<h:form id="sugestao"
+							enctype="multipart/form-data">
+							<p:growl id="messages" />
+
+							<h:outputLabel value="Assunto:" for="assunto" styleClass="lead" />
+							<p:autoComplete styleClass="lead" style="margin-left: 4%;"
+								size="15" required="true" requiredMessage="Escolha o assunto"
+								value="#{gestorPublicoBean.assuntoSelecionado}" id="assunto"
+								completeMethod="#{gestorPublicoBean.completeAssunto}" var="p"
+								itemLabel="#{p.descricao}" itemValue="#{p}" dropdown="true"
+								converter="converter" forceSelection="true" minQueryLength="3" />
+								
+								<p:commandButton id="btnAdicionarAssunto" value="Adicionar"
+									actionListener="#{gestorPublicoBean.adicionarAssunto}"
+									ajax="true"
+									icon="ui-icon-circle-check">
+									<f:ajax execute="@this" render="btnAdicionarAssunto" />
+								</p:commandButton>
+							
+							<p:dataTable id="assuntos" var="obj"
+								value="#{gestorPublicoBean.assuntos}">
+								<f:facet name="header">  
+            						Assuntos de Interesse  
+        						</f:facet>
+								<p:column headerText="Descrição">  
+            						#{obj.descricao}  
+        						</p:column>
+								<p:column headerText="">  
+            						apagar  
+        						</p:column>
+							</p:dataTable>
+							<p />
+							
+							<h:outputLabel value="Cidade:" for="cidade" styleClass="lead" />
+							<p:autoComplete styleClass="lead" style="margin-left: 4%;"
+								size="15" required="true" requiredMessage="Escolha o assunto"
+								value="#{gestorPublicoBean.assuntoSelecionado}" id="cidade"
+								completeMethod="#{gestorPublicoBean.completeAssunto}" var="p"
+								itemLabel="#{p.descricao}" itemValue="#{p}" dropdown="true"
+								converter="converter" forceSelection="true" minQueryLength="3" />
+								
+								<p:commandButton id="btnAdicionarCidade" value="Adicionar"
+									actionListener="#{gestorPublicoBean.adicionarAssunto}"
+									ajax="true"
+									icon="ui-icon-circle-check">
+								</p:commandButton>
+							
+							<p:dataTable id="cidades" var="obj"
+								value="#{gestorPublicoBean.assuntos}">
+								<f:facet name="header">  
+            						Cidades de Interesse  
+        						</f:facet>
+								<p:column headerText="Descrição">  
+            						#{obj.descricao}  
+        						</p:column>
+								<p:column headerText="">  
+            						apagar  
+        						</p:column>
+							</p:dataTable>
+							<p />
+							
+							<h:outputLabel value="Nome:" styleClass="lead" />
+							<p:inputText id="local" styleClass="lead"
+								style="margin-left: 9%;" required="true"
+								requiredMessage="Informe o local"
+								value="#{fileUploadController.sugestao.local}" />
+							<p:watermark for="local" value="seu nome ou do órgão" />
+							<p />
+
+							<h:outputLabel value="e-mail:" styleClass="lead" />
+							<p:inputText id="email" styleClass="lead" required="true"
+								requiredMessage="Seu email não será divulgado"
+								value="#{fileUploadController.sugestao.email}" />
+							<p:watermark for="email" value="não será divulgado" />
+							<p />
+							
+							<h:outputLabel value="Foto ou Logotipo:" styleClass="lead" />
+							<p:fileUpload
+								fileUploadListener="#{fileUploadController.enviarArquivo}"
+								label="Selecionar Foto" mode="advanced" auto="false"
+								sizeLimit="1000000" fileLimit="1"
+								fileLimitMessage="Permitido somente 1 imagem"
+								allowTypes="/(\.|\/)(gif|jpe?g|png)$/" dragDropSupport="false"
+								invalidSizeMessage="Tamanha maior que o permitido!"
+								invalidFileMessage="Extensão não Permitida" uploadLabel="Enviar"
+								cancelLabel="Cancelar" />
+
+							<br />
+
+							<div align="center">
+								<p:commandButton id="btnEnviar" value="Continuar"
+									update="sugestao"
+									actionListener="#{fileUploadController.salvarSugestao}"
+									icon="ui-icon-circle-check">
+									<f:ajax execute="@this" render="btnEnviar" />
+								</p:commandButton>
+							</div>
+
+						</h:form>
+					</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Intro -->
+
+	<!-- Footer -->
+	<footer>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3 text-center">
+
+				<ul class="list-inline">
+					<h:graphicImage value="/img/face2.png"
+						styleClass="icon-list-inline" title="Nossa Página no Facebook" />
+					<h:graphicImage value="/img/twitter2.png"
+						styleClass="icon-list-inline" title="Siga-nos no Twitter" />
+					<!-- 				<h:graphicImage value="/img/instagram2.png" styleClass="icon-list-inline" /> -->
+					<h:graphicImage value="/img/linkedin2.png"
+						styleClass="icon-list-inline" title="Faça Parte de Nossa Network" />
+					<h:graphicImage value="/img/skype2.png"
+						styleClass="icon-list-inline" title="Contate-nos pelo Skype" />
+					<h:graphicImage value="/img/youtube2.png"
+						styleClass="icon-list-inline" title="Veja nossos vídeos" />
+
+					<!-- 					<li><i class="fa fa-facebook fa-3x"></i></li> -->
+					<!-- 					<li><i class="fa fa-twitter fa-3x"></i></li> -->
+					<!-- 					<li><i class="fa fa-skype fa-3x"></i></li> -->
+				</ul>
+				<div class="top-scroll">
+					<a href="#top"><i class="fa fa-circle-arrow-up scroll fa-4x"></i></a>
+				</div>
+				<hr />
+				<p>Copyright &copy; 2014 HMTec Todos os direitos reservados</p>
+
+				<p>Logomarca da empresa</p>
+			</div>
+		</div>
+	</div>
+	</footer>
+	<!-- /Footer -->
+
+
+
+	<!-- Custom JavaScript for the Side Menu and Smooth Scrolling -->
+	<script>
+		$("#menu-close").click(function(e) {
+			e.preventDefault();
+			$("#sidebar-wrapper").toggleClass("active");
+		});
+	</script>
+	<script>
+		$("#menu-toggle").click(function(e) {
+			e.preventDefault();
+			$("#sidebar-wrapper").toggleClass("active");
+		});
+	</script>
+	<script>
+		$(function() {
+			$('a[href*=#]:not([href=#])')
+					.click(
+							function() {
+								if (location.pathname.replace(/^\//, '') == this.pathname
+										.replace(/^\//, '')
+										|| location.hostname == this.hostname) {
+
+									var target = $(this.hash);
+									target = target.length ? target
+											: $('[name=' + this.hash.slice(1)
+													+ ']');
+									if (target.length) {
+										$('html,body').animate({
+											scrollTop : target.offset().top
+										}, 1000);
+										return false;
+									}
+								}
+							});
+		});
+	</script>
+
+</h:body>
+
+</html>
