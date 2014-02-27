@@ -7,18 +7,22 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+
 import org.primefaces.event.FileUploadEvent;
+
 import sistema.com.br.dao.DAO;
 import sistema.com.br.dao.SugestaoDAO;
 import sistema.com.br.entity.Assunto;
 import sistema.com.br.entity.Cidade;
 import sistema.com.br.entity.Foto;
 import sistema.com.br.entity.Sugestao;
+import sistema.com.br.util.Msg;
 
 @ManagedBean
 @ViewScoped
@@ -38,7 +42,7 @@ public class FileUploadController implements Serializable {
 		sugestoesSaude = populaSugestoesSaude();
 	}
 
-	public void enviarArquivo(FileUploadEvent event) {
+	public void enviarArquivo(FileUploadEvent event) {        
 		FacesMessage msg = new FacesMessage("Imagem enviada! Conclua o envio da sugestão.");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 		String fileName = getRandomImageName() + ".png";
@@ -62,6 +66,7 @@ public class FileUploadController implements Serializable {
 	public void salvarSugestao() {
 		sugestao.setFoto(foto);
 		sugestao.setAssunto(assuntoSelecionado);
+		Msg.addMsgInfo("Sugestão Enviada. Obrigado pela sua participação!");
 		CidadeBean cidadeBean = (CidadeBean) FacesContext.getCurrentInstance()
 				.getExternalContext().getSessionMap().get("cidadeBean");
 		sugestao.setCidade(cidadeBean.getSelectedCidade());

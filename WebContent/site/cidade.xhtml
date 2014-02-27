@@ -44,8 +44,8 @@
 			<li class="sidebar-brand"><a href="#portfolio">Apóie</a></li>		
 			<li class="sidebar-brand"><a href="#about">Fotografe</a></li>
 			<li class="sidebar-brand"><a href="#apoio">Quem apoia</a></li>
-			<li class="sidebar-brand"><a href="login.jsf" title="Área destinada ao administrador e Apoiador">Login</a></li>
-			<li class="sidebar-brand"><a href="novoApoiador.jsf" title="Área destinada ao administrador e Apoiador">Quero Apoiar</a></li>
+			<li class="sidebar-brand"><a href="podemelhorar/site/login.jsf" title="Área destinada ao administrador e Apoiador">Login</a></li>
+			<li class="sidebar-brand"><a href="/podemelhorar/site/novoApoiador.jsf" title="Área destinada ao administrador e Apoiador">Quero Apoiar</a></li>
 		</ul>
 	</div>
 
@@ -140,23 +140,25 @@
 
 							<h:outputLabel value="Seu e-mail:" styleClass="lead" />
 							<p:inputText id="email" styleClass="lead" required="true" requiredMessage="Seu email não será divulgado"
-								value="#{fileUploadController.sugestao.email}" />
+								value="#{fileUploadController.sugestao.email}" validatorMessage="Email inválido" />
 							<p:watermark for="email" value="não será divulgado" />
 							<p />
-
+							
+							<div class="well">
 							<p:fileUpload
 								fileUploadListener="#{fileUploadController.enviarArquivo}"
-								label="Selecionar Foto"	auto="true"
+								label="Escolher Foto"	auto="true" update="messages" mode="simple"
 								sizeLimit="2000000" fileLimit="1" fileLimitMessage="Sua imagem já foi selecionada"
 								allowTypes="/(\.|\/)(gif|jpe?g|png)$/" dragDropSupport="false"
 								invalidSizeMessage="Tamanha maior que o permitido"
 								invalidFileMessage="Extensão não permitida" uploadLabel="Enviar"
 								cancelLabel="Cancelar" />
+							</div>
 
 							<br />
 
 							<div align="center">
-								<p:commandButton id="btnEnviar" value="Enviar Sugestão" update="sugestao" styleClass="btn btn-info"
+								<p:commandButton id="btnEnviar" value="Enviar Sugestão" update="sugestao" styleClass="btn btn-primary"
 								actionListener="#{fileUploadController.salvarSugestao}" icon="ui-icon-circle-check">
 										<f:ajax execute="@this" render="btnEnviar" />
 								</p:commandButton>	

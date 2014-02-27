@@ -20,6 +20,7 @@ public class AssuntoBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Assunto assunto = new Assunto();
 	private DAO<Assunto> dao = new DAO<Assunto>(Assunto.class);
+	private List<Assunto> listaDeAssuntos;
 
 	List<Assunto> assuntos;
 
@@ -32,6 +33,16 @@ public class AssuntoBean implements Serializable {
 	public AssuntoBean() {
 		DAO<Assunto> daoAssunto = new DAO<Assunto>(Assunto.class);
 		assuntos = daoAssunto.getAllOrder("descricao");
+	}
+	
+	/** carregar lista **/
+
+	public List<Assunto> getListaDeAssuntos() {
+		if (listaDeAssuntos == null) {
+			System.out.println("Carregando assuntos...");
+			listaDeAssuntos = new DAO<Assunto>(Assunto.class).getAllOrder("descricao");
+		}
+		return assuntos;
 	}
 
 	public List<Assunto> completeAssunto(String query) {
@@ -79,10 +90,6 @@ public class AssuntoBean implements Serializable {
 		}
 	}
 
-	public List<Assunto> getAssuntos() {
-		return assuntos;
-	}
-
 	public void setAssuntos(List<Assunto> assuntos) {
 		this.assuntos = assuntos;
 	}
@@ -101,6 +108,14 @@ public class AssuntoBean implements Serializable {
 
 	public void setDao(DAO<Assunto> dao) {
 		this.dao = dao;
+	}
+
+	public void setListaDeAssuntos(List<Assunto> listaDeAssuntos) {
+		this.listaDeAssuntos = listaDeAssuntos;
+	}
+
+	public List<Assunto> getAssuntos() {
+		return assuntos;
 	}
 
 }

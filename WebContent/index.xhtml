@@ -41,8 +41,8 @@
 			<li class="sidebar-brand"><a href="#top">Escolha a Cidade</a></li>
 			<li class="sidebar-brand"><a href="#funciona">Como Funciona</a></li>
 			<li class="sidebar-brand"><a href="#apoio">Quem Apoia</a></li>
-			<li class="sidebar-brand"><a href="login.jsf" title="Área destinada ao administrador e Apoiador">Login</a></li>
-			<li class="sidebar-brand"><a href="login.jsf" title="Área destinada ao administrador e Apoiador">Quero Apoiar</a></li>
+			<li class="sidebar-brand"><a href="/podemelhorar/site/login.jsf" title="Área destinada ao administrador e Apoiador">Login</a></li>
+			<li class="sidebar-brand"><a href="/podemelhorar/site/novoApoiador.jsf" title="Área destinada ao administrador e Apoiador">Quero Apoiar</a></li>
 
 		</ul>
 	</div>
@@ -64,7 +64,7 @@
 				<h3>
 					<p:autoComplete value="#{cidadeBean.selectedCidade}" id="basicPojo"
 						label="basicPojo" completeMethod="#{cidadeBean.completeCidade}"
-						var="p" itemLabel="#{p.nome}" itemValue="#{p}"
+						var="p" itemLabel="#{p.nome} #{p.estado}" itemValue="#{p}"
 						converter="converter" forceSelection="true" minQueryLength="3"
 						queryDelay="30" emptyMessage="Cidade Não Encontrada"
 						required="true"
