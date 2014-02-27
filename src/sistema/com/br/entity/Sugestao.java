@@ -17,6 +17,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.validator.constraints.Email;
+
 
 
 /**
@@ -52,6 +54,7 @@ public class Sugestao implements Serializable {
     
     private String local;
     
+    @Email
     private String email;
 
 	public Long getId() {
@@ -67,7 +70,7 @@ public class Sugestao implements Serializable {
 	}
 
 	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+		this.descricao = descricao.toUpperCase();
 	}
 
 	public Calendar getDataRegistro() {
@@ -99,7 +102,7 @@ public class Sugestao implements Serializable {
 	}
 
 	public void setLocal(String local) {
-		this.local = local;
+		this.local = local.toUpperCase();
 	}
 
 	public String getEmail() {
@@ -107,7 +110,7 @@ public class Sugestao implements Serializable {
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = email.toLowerCase();
 	}
 
 	public Foto getFoto() {

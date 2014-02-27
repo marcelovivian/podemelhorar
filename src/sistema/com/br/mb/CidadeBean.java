@@ -27,7 +27,7 @@ public class CidadeBean implements Serializable {
 	
 	
 	public String escolheCidade(){
-		return "cidade?faces-redirect=true";
+		return "/site/cidade?faces-redirect=true";
 	}
 
 	public Cidade getSelectedCidade() {

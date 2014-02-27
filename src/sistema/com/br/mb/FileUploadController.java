@@ -39,8 +39,7 @@ public class FileUploadController implements Serializable {
 	}
 
 	public void enviarArquivo(FileUploadEvent event) {
-		FacesMessage msg = new FacesMessage("Confirmado", event.getFile()
-				.getFileName() + " foi enviado.");
+		FacesMessage msg = new FacesMessage("Imagem enviada! Conclua o envio da sugestão.");
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 		String fileName = getRandomImageName() + ".png";
 
@@ -68,7 +67,8 @@ public class FileUploadController implements Serializable {
 		sugestao.setCidade(cidadeBean.getSelectedCidade());
 		DAO<Sugestao> dao = new DAO<Sugestao>(Sugestao.class);
 		dao.adiciona(sugestao);
-
+		
+		sugestao = new Sugestao();
 	}
 
 	private void copyFile(InputStream in, String fileName) {

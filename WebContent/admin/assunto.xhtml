@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="LATIN1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/_template.xhtml">
+	<ui:define name="corpo">
+	
+			<div class="wrapper row-offcanvas row-offcanvas-left">
+				
+<!-- 				título -->
+				<aside class="right-side">
+				
+				<div class="content-header">
+				
+				<h1>
+					<h:outputLabel styleClass="title" value="ASSUNTO" />
+				</h1>
+				
+				</div> <!-- Main content -->
+				
+				<section class="content"> <!-- Small boxes (Stat box) -->
+				
+				<div class="row">
+				
+				<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
+						<div class="small-box bg-aqua">
+							<div class="inner">
+								<h3>Sugestão</h3>
+								<p>Aprovar Sugestões</p>
+							</div>
+							<div class="icon">
+								<i class="ion ion-android-camera"></i>
+							</div>
+							<a href="#" class="small-box-footer"> Mais informações <i class="fa fa-arrow-circle-right"></i>
+							</a>
+						</div>
+					</div>
+				
+				<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
+						<div class="small-box bg-orange">
+							<div class="inner">
+								<h3>Apoiador</h3>
+								<p>Cadastrar/Editar/Remover</p>
+							</div>
+							<div class="icon">
+								<i class="ion ion-person"></i>
+							</div>
+							<a href="SolicitacaoDeCadastro2.xhtml" class="small-box-footer"> Mais informações <i
+								class="fa fa-arrow-circle-right"></i>
+							</a>
+						</div>
+					</div>
+					
+					<!-- ./col -->
+					<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
+						<div class="small-box bg-red">
+							<div class="inner">
+								<h3>Assunto</h3>
+								<p>Cadastrar/Editar/Remover</p>
+							</div>
+							<div class="icon">
+								<i class="ion ion-chatbox"></i>
+							</div>
+							<a href="#" class="small-box-footer"> Mais informações <i
+								class="fa fa-arrow-circle-right"></i>
+							</a>
+						</div>
+					</div>
+					<!-- ./col -->
+					
+					<div class="col-lg-3 col-xs-6">
+						<!-- small box -->
+						<div class="small-box bg-green">
+							<div class="inner">
+								<h3>Cidade</h3>
+								<p>Cadastrar/Editar/Remover</p>
+							</div>
+							<div class="icon">
+								<i class="ion ion-android-location"></i>
+							</div>
+							<a href="#" class="small-box-footer"> Mais informações <i
+								class="fa fa-arrow-circle-right"></i>
+							</a>
+						</div>
+					</div>
+					<!-- ./col -->
+					
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-12 connectedSortable"></div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row --> <!-- Main row -->
+				
+				<div class="row">
+					<!-- Left col -->
+					<section class="col-lg-6 connectedSortable"> <!-- Box (with bar chart) -->
+					<div class="box box-primary" id="loading-example">
+						<div class="box-header">
+							<i class="fa fa-plus" style="color: #3c8dbc;"></i>
+
+							<h3 class="box-title">
+								<h:outputText value="Novo Assunto" style="color: #3c8dbc;" />
+							</h3>
+						</div>
+						<!-- /.box-header -->
+						
+<!-- 						inicio form assunto -->
+						<div class="box-body no-padding">
+							<h:form>
+							<h:outputLabel value="Descrição: " />&nbsp;
+							<p:inputText id="descricao" value="#{assuntoBean.assunto.descricao}"
+								required="true" requiredMessage="Informe o Assunto" size="30">
+									<f:ajax event="change" />
+							</p:inputText>
+							
+							<br /><br />
+							<div align="center">
+							<p:commandButton actionLis="#{assuntoBean.cadastrarAssunto}"
+								value="Cadastrar" ajax="false" icon="ui-icon-check" rendered="#{assuntoBean.assunto.id==null}">
+									<f:ajax render="@form" />
+							</p:commandButton>
+							
+							<p:commandButton action="#{assuntoBean.editarAssunto}" update=":dataTable:dtAssuntos"
+								value="Editar" ajax="false" icon="ui-icon-pencil" rendered="#{assuntoBean.assunto.id!=null}">
+									<f:ajax render="@form" />
+							</p:commandButton>
+							</div><br />
+							
+							<p:messages autoUpdate="true" />
+							</h:form>
+						</div>
+<!-- 						fim do form -->
+						
+					</div>
+
+					</section>
+					<!-- /.Left col -->
+								
+<!-- 					solicitação de acesso					 -->
+					<section class="col-lg-6 connectedSortable"> <!-- Box (with bar chart) -->
+					<div class="box box-danger" id="loading-example">
+						<div class="box-header">
+							<i class="fa fa-th-list" style="color: #f56954;"></i>
+
+							<h3 class="box-title">
+								<h:outputText value="Assuntos" style="color: #f56954;" />
+									
+							</h3>
+						</div>
+						
+						<!-- 						inicio tabela de assuntos cadastrados -->
+						<div class="box-body no-padding">
+						<h:form id="dataTable">
+							<h:dataTable id="dtAssuntos" class="table table-bordered table-striped dataTable" aria-describedby="example1_info"
+							value="#{assuntoBean.assuntos}" var="a">
+															
+								<p:column>
+									<p:commandLink title="Editar" ajax="false" update=":dataTable:dtAssuntos">
+                                   		<i class="fa fa-pencil"></i>
+                                   		<f:ajax render="@all" />
+                                   		<f:setPropertyActionListener target="#{assuntoBean.assunto}" value="#{a}" />
+                                   	</p:commandLink>&nbsp;&nbsp;
+                                   	
+                                   	<h:commandLink title="Desativar">	
+                                     	<i class="fa fa-trash-o"></i>
+                                     </h:commandLink>&nbsp;&nbsp;&nbsp;&nbsp;
+                                     
+									<h:outputText value="#{a.descricao}" />
+										
+								</p:column>
+							
+							</h:dataTable>
+						</h:form>
+						</div>
+<!-- 						fim da tabela de assuntos -->
+					</div>
+					
+					<!-- Map box -->
+					
+					
+					<!-- /.box --> 
+					</section>
+					<!-- right col -->
+				</div>
+				<!-- /.row (main row) --> </section><!-- /.content --> </aside>
+				<!-- /.right-side -->
+			</div>
+
+	</ui:define>
+</ui:composition>
+
+</html>
