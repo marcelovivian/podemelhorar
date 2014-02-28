@@ -1,12 +1,16 @@
 package sistema.com.br.mb;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
@@ -19,6 +23,7 @@ import sistema.com.br.entity.Assunto;
 import sistema.com.br.entity.Cidade;
 import sistema.com.br.entity.Foto;
 import sistema.com.br.entity.Sugestao;
+import sistema.com.br.util.JsfArquivoUtil;
 
 @ManagedBean
 @ViewScoped
@@ -48,15 +53,25 @@ public class FileUploadController implements Serializable {
 		foto.setNomeArquivo(fileName);
 		foto.setContentType(event.getFile().getContentType());
 		foto.setSize(event.getFile().getSize());
+		
+		byte[] file = event.getFile().getContents();
+		
+		ServletContext servletContext = (ServletContext) FacesContext
+				.getCurrentInstance().getExternalContext().getContext();
+		
+		String pastaForaContexto = JsfArquivoUtil.lerConfig("imgPodeMelhorar");
+	    String caminhoPasta = servletContext.getRealPath(".." + pastaForaContexto + fileName);
+	    System.out.println(caminhoPasta);
+	    criaArquivo(file, caminhoPasta);
 
-		try {
-			copyFile(event.getFile().getInputstream(), fileName);
-		} catch (IOException e) {
-			e.printStackTrace();
-			FacesMessage msg2 = new FacesMessage("Falha", event.getFile()
-					.getFileName() + " não foi enviado.");
-			FacesContext.getCurrentInstance().addMessage(null, msg2);
-		}
+//		try {
+//			copyFile(event.getFile().getInputstream(), fileName);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			FacesMessage msg2 = new FacesMessage("Falha", event.getFile()
+//					.getFileName() + " não foi enviado.");
+//			FacesContext.getCurrentInstance().addMessage(null, msg2);
+//		}
 
 	}
 
@@ -70,18 +85,38 @@ public class FileUploadController implements Serializable {
 		dao.adiciona(sugestao);
 
 	}
+	
+	public void criaArquivo(byte[] bytes, String arquivo)
+	  {
+	    try
+	    {
+	      FileOutputStream fos = new FileOutputStream(arquivo);
+	      fos.write(bytes);
+	      fos.close();
+	    } catch (FileNotFoundException ex) {
+	      Logger.getLogger(FileUploadController.class.getName()).log(Level.SEVERE, null, ex);
+	    } catch (IOException ex) {
+	      Logger.getLogger(FileUploadController.class.getName()).log(Level.SEVERE, null, ex);
+	    }
+	  }
 
 	private void copyFile(InputStream in, String fileName) {
 		try {
 
 			ServletContext servletContext = (ServletContext) FacesContext
 					.getCurrentInstance().getExternalContext().getContext();
-			String destination = servletContext.getRealPath("")
-					+ File.separator + "photocam" + File.separator;
-			System.out.println(destination);
+//			String destination = servletContext.getRealPath("")
+//					+ File.separator + "photocam" + File.separator;
+//			System.out.println(destination);
+			
+			String pastaForaContexto = JsfArquivoUtil.lerConfig("imgPodeMelhorar");
+		    String caminhoPasta = servletContext.getRealPath(".." + pastaForaContexto + fileName);
+			
 			// write the inputStream to a FileOutputStream
-			OutputStream out = new FileOutputStream(new File(destination
-					+ fileName));
+//			OutputStream out = new FileOutputStream(new File(destination
+//					+ fileName));
+		    
+		    OutputStream out = new FileOutputStream(new File(caminhoPasta));
 
 			int read = 0;
 			byte[] bytes = new byte[1024];

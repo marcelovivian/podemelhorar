@@ -1,0 +1,10 @@
+* Para comentarios utilize asteristico
+* Para paramentros use o nome da variavel seguida de igual e valor
+* paramentro=valor
+* para recuperar valor utilize a classe JsfArquivoUtil.lerConfig(String parametro)
+*
+*Pasta para arquivos de upload do sistema dentro de webapps
+pastaArquivos=/imgPodeMelhorar/
+*
+*teste
+teste=/arquivosFichaFuncionalTeste/
