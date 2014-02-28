@@ -106,6 +106,15 @@ body {
 
 /* Full Page Image Header Area */
 
+.logo {
+	background: url(../img/logo_cabecalho.png) no-repeat center;
+	display: table;
+	height: 100%;
+	width: 100%;
+	position: relative;
+	vertical-align: top;
+}
+
 .header {
   display: table;
   height: 100%;
@@ -248,6 +257,10 @@ i.scroll:hover {
 /* Responsive */
 
 @media (max-width: 768px) {
+	
+  .logo {
+  	background: url(../img/logo_cabecalho_mini.png) no-repeat center center scroll;
+  }		
 	
   .header {
 	background: url(../img/bg.jpg) no-repeat center center scroll; 

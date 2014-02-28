@@ -30,13 +30,10 @@
 			<a id="menu-close" href="#"
 				class="btn btn-default btn-lg pull-right toggle"> <i
 				class="fa fa-times"></i></a>
-			<li class="sidebar-brand"><a href="#top">Escolha a Cidade</a></li>
+			<li class="sidebar-brand"><a href="../index.jsf">Escolha a Cidade</a></li>
 			<li class="sidebar-brand"><a href="#funciona">Como Funciona</a></li>
-			<li class="sidebar-brand"><a href="#apoio">Quem Apoia</a></li>
-			<li class="sidebar-brand"><a href="login.jsf"
-				title="Área destinada ao administrador e Apoiador">Entrar</a></li>
-			<li class="sidebar-brand"><a href="site/novoApoiador.jsf"
-				title="Área destinada ao administrador e Apoiador">Novo Apoiador</a></li>
+			<li class="sidebar-brand"><a href="#vantagem">O Que Eu Ganho?</a></li>
+			<li class="sidebar-brand"><a href="login.jsf" title="Área destinada ao administrador e Apoiador">Login</a></li>
 
 		</ul>
 	</div>
@@ -47,52 +44,36 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-6 col-md-offset-3 text-center">
-					<h2>Você pode ajudar a melhorar. Cadastre-se como apoiador.</h2>
-
-					<p class="lead text-justify">Você receberá um e-mail com as
-						sugestões cadastradas para a cidades a assuntos de seu interesse.</p>
-					<p class="lead text-justify">
-						Seu nome será
-						divulgado no Ranking dos Apoiadores.</p>
-					<p class="lead text-justify"> O cidadão que fez a
-						sugestão receberá uma mensagem com a sua resposta. </p>
+					<h2>Ajude a Melhorar!<br /> Cadastre-se como apoiador.</h2>
+					<hr />
 					
-					
-					<span class="input-xlarge text-left"> 
-					
+					<span class="input-xlarge text-left"> 	
 										
 					<h:form id="sugestao"
 							enctype="multipart/form-data">
 							<p:growl id="messages" />
+							
+							<h:outputLabel value="Nome:" styleClass="lead" />
+							<p:inputText id="local" styleClass="lead"
+								style="margin-left: 2%;" required="true"
+								requiredMessage="Informe o local"
+								value="#{fileUploadController.sugestao.local}" />
+							<p:watermark for="local" value="seu nome ou do órgão" />
+							<p />
+
+							<h:outputLabel value="e-mail:" styleClass="lead" />
+							<p:inputText id="email" styleClass="lead" required="true"
+								requiredMessage="Seu email não será divulgado" style="margin-left: 2%;"
+								value="#{fileUploadController.sugestao.email}" />
+							<p:watermark for="email" value="não será divulgado" />
+							<p />
+							<hr />
 
 							<h:outputLabel value="Assunto:" for="assunto" styleClass="lead" />
-							<p:autoComplete styleClass="lead" style="margin-left: 4%;"
-								size="15" required="true" requiredMessage="Escolha o assunto"
-								value="#{gestorPublicoBean.assuntoSelecionado}" id="assunto"
-								completeMethod="#{gestorPublicoBean.completeAssunto}" var="p"
-								itemLabel="#{p.descricao}" itemValue="#{p}" dropdown="true"
-								converter="converter" forceSelection="true" minQueryLength="3" />
-								
-								<p:commandButton id="btnAdicionarAssunto" value="Adicionar"
-									actionListener="#{gestorPublicoBean.adicionarAssunto}"
-									ajax="true"
-									icon="ui-icon-circle-check">
-									<f:ajax execute="@this" render="btnAdicionarAssunto" />
-								</p:commandButton>
-							
-							<p:dataTable id="assuntos" var="obj"
-								value="#{gestorPublicoBean.assuntos}">
-								<f:facet name="header">  
-            						Assuntos de Interesse  
-        						</f:facet>
-								<p:column headerText="Descrição">  
-            						#{obj.descricao}  
-        						</p:column>
-								<p:column headerText="">  
-            						apagar  
-        						</p:column>
-							</p:dataTable>
-							<p />
+							<p:selectManyCheckbox  id="grid" layout="grid" columns="3">  
+           	 					<f:selectItems value="#{assuntoBean.listaDeAssuntos}" itemLabel="#{a.descricao}" itemValue="#{a.id}" var="a"/>  
+        					</p:selectManyCheckbox >
+							<hr />
 							
 							<h:outputLabel value="Cidade:" for="cidade" styleClass="lead" />
 							<p:autoComplete styleClass="lead" style="margin-left: 4%;"
@@ -120,39 +101,25 @@
             						apagar  
         						</p:column>
 							</p:dataTable>
-							<p />
-							
-							<h:outputLabel value="Nome:" styleClass="lead" />
-							<p:inputText id="local" styleClass="lead"
-								style="margin-left: 9%;" required="true"
-								requiredMessage="Informe o local"
-								value="#{fileUploadController.sugestao.local}" />
-							<p:watermark for="local" value="seu nome ou do órgão" />
-							<p />
-
-							<h:outputLabel value="e-mail:" styleClass="lead" />
-							<p:inputText id="email" styleClass="lead" required="true"
-								requiredMessage="Seu email não será divulgado"
-								value="#{fileUploadController.sugestao.email}" />
-							<p:watermark for="email" value="não será divulgado" />
+							<hr />
 							<p />
 							
 							<h:outputLabel value="Foto ou Logotipo:" styleClass="lead" />
+							<div class="well">
 							<p:fileUpload
 								fileUploadListener="#{fileUploadController.enviarArquivo}"
-								label="Selecionar Foto" mode="advanced" auto="false"
-								sizeLimit="1000000" fileLimit="1"
-								fileLimitMessage="Permitido somente 1 imagem"
+								label="Escolher Foto"	auto="true" update="messages" mode="simple"
+								sizeLimit="2000000" fileLimit="1" fileLimitMessage="Sua imagem já foi selecionada"
 								allowTypes="/(\.|\/)(gif|jpe?g|png)$/" dragDropSupport="false"
-								invalidSizeMessage="Tamanha maior que o permitido!"
-								invalidFileMessage="Extensão não Permitida" uploadLabel="Enviar"
+								invalidSizeMessage="Tamanha maior que o permitido"
+								invalidFileMessage="Extensão não permitida" uploadLabel="Enviar"
 								cancelLabel="Cancelar" />
-
+							</div>
 							<br />
 
 							<div align="center">
 								<p:commandButton id="btnEnviar" value="Continuar"
-									update="sugestao"
+									update="sugestao" styleClass="btn btn-info"
 									actionListener="#{fileUploadController.salvarSugestao}"
 									icon="ui-icon-circle-check">
 									<f:ajax execute="@this" render="btnEnviar" />
@@ -166,6 +133,77 @@
 		</div>
 	</div>
 	<!-- /Intro -->
+	
+	<!-- Funciona -->
+	<div id="funciona" class="services">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4 text-center">
+					<h2>Como Funciona</h2>
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-2 col-md-offset-2 text-center">
+
+					<div class="service-item">
+						<i class="service-icon fa fa-envelope"></i>
+						<h4>e-mail</h4>
+						<p class="text-justify">Você receberá um e-mail com as
+						sugestões cadastradas para as cidades e assuntos de seu interesse.</p>
+					</div>
+				</div>
+				<div class="col-md-2 text-center">
+					<div class="service-item">
+						<i class="service-icon fa fa-list"></i>
+						<h4>Ranking</h4>
+						<p class="text-justify">Seu nome será
+						divulgado no Ranking dos Apoiadores.</p>
+					</div>
+				</div>
+				<div class="col-md-2 text-center">
+					<div class="service-icon service-item">
+						<i class="service-icon fa fa-rotate-right"></i>
+						<h4>Resposta</h4>
+						<p class="text-justify">O cidadão que fez a
+						sugestão, será notificado de sua resposta.</p>
+					</div>
+				</div>
+				<div class="col-md-2 text-center">
+					<div class="service-item">
+						<i class="service-icon fa fa-file"></i>
+						<h4>Relatório</h4>
+						<p class="text-justify">É possível gerar relatório com
+						os assuntos de maiores reclamações.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div id="vantagem" class="portfolio">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 col-md-offset-4 text-center">
+					<h2>
+						O que eu ganho?
+					</h2>
+					
+					<p class="lead text-justify">1. A divulgação do ranking é feita na página principal do site
+					e logo após o usuário identificar a cidade. Você pode aparecer no Brasil e na sua cidade!</p>
+					<p class="lead text-justify">
+						2. A contagem dos pontos para o ranking é efetuada por respostas.
+						Quanto mais participação em respostas, mais pontos!</p>
+					<p class="lead text-justify">3. O apoiador tem acesso restrito, e pode emitir relatórios
+					de assuntos mais comentados, entre outros. Atenção! A emissão de relatório é válido somente
+					para apoiadores cujo perfil não é gratuito.</p>
+
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	
 
 	<!-- Footer -->
 	<footer>

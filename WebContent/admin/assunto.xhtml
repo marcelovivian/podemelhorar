@@ -5,13 +5,11 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.org/ui">e.com.tr/ui">
+	xmlns:p="http://primefaces.org/ui">
 
 <ui:composition template="/_template.xhtml">
 	<ui:define name="corpo">
 	
-	<p:growl />
-
 			<div class="wrapper row-offcanvas row-offcanvas-left">
 				
 <!-- 				título -->
@@ -20,7 +18,7 @@
 				<div class="content-header">
 				
 				<h1>
-					<h:outputLabel styleClass="title" value="ÁREA ADMINISTRATIVA" />
+					<h:outputLabel styleClass="title" value="ASSUNTO" />
 				</h1>
 				
 				</div> <!-- Main content -->
@@ -108,39 +106,40 @@
 					<section class="col-lg-6 connectedSortable"> <!-- Box (with bar chart) -->
 					<div class="box box-primary" id="loading-example">
 						<div class="box-header">
-							<i class="fa fa-user" style="color: #3c8dbc;"></i>
+							<i class="fa fa-plus" style="color: #3c8dbc;"></i>
 
 							<h3 class="box-title">
-								<h:outputText value="Apoiadores" style="color: #3c8dbc;" />
+								<h:outputText value="Novo Assunto" style="color: #3c8dbc;" />
 							</h3>
 						</div>
 						<!-- /.box-header -->
 						
-<!-- 						inicio tabela de usuarios cadastrados -->
+<!-- 						inicio form assunto -->
 						<div class="box-body no-padding">
-							<h:dataTable id="example1" class="table table-bordered table-striped dataTable" aria-describedby="example1_info"
-							value="#{funcionarioBean.funcionariosA}" var="funcionario" emptyMessage="Não Encontrado">
-
-								<p:column headerText="Matricula"
-									sortBy="#{funcionario.matricula}"
-									filterBy="#{funcionario.matricula}" filterMatchMode="contains">
-									<h:outputText value="#{funcionario.matricula}"
-										style="width: 150px; text-align: center;" />
-								</p:column>
-
-								<p:column headerText="Nome" sortBy="#{funcionario.nome}"
-									filterBy="#{funcionario.nome}" filterMatchMode="contains">
-									<h:outputText value="#{funcionario.nome}" />
-								</p:column>
-
-								<p:column headerText="Perfil" sortBy="#{funcionario.perfil}"
-									filterBy="#{funcionario.perfil}" filterMatchMode="contains">
-									<h:outputText value="#{funcionario.perfil}" />
-								</p:column>
-
-							</h:dataTable>
+							<h:form>
+							<h:outputLabel value="Descrição: " />&nbsp;
+							<p:inputText id="descricao" value="#{assuntoBean.assunto.descricao}"
+								required="true" requiredMessage="Informe o Assunto" size="30">
+									<f:ajax event="change" />
+							</p:inputText>
+							
+							<br /><br />
+							<div align="center">
+							<p:commandButton actionLis="#{assuntoBean.cadastrarAssunto}"
+								value="Cadastrar" ajax="false" icon="ui-icon-check" rendered="#{assuntoBean.assunto.id==null}">
+									<f:ajax render="@form" />
+							</p:commandButton>
+							
+							<p:commandButton action="#{assuntoBean.editarAssunto}" update=":dataTable:dtAssuntos"
+								value="Editar" ajax="false" icon="ui-icon-pencil" rendered="#{assuntoBean.assunto.id!=null}">
+									<f:ajax render="@form" />
+							</p:commandButton>
+							</div><br />
+							
+							<p:messages autoUpdate="true" />
+							</h:form>
 						</div>
-<!-- 						fim da tabela de usuarios -->
+<!-- 						fim do form -->
 						
 					</div>
 
@@ -154,53 +153,36 @@
 							<i class="fa fa-th-list" style="color: #f56954;"></i>
 
 							<h3 class="box-title">
-								<h:outputText value="Novas Solicitações" style="color: #f56954;" 
-									rendered="#{not empty funcionarioBean.funcionariosE}" />
+								<h:outputText value="Assuntos" style="color: #f56954;" />
 									
-								<h:outputText value="Nenhuma Solicitação" style="color: #f56954;" 
-									rendered="#{empty funcionarioBean.funcionariosE}"/>
 							</h3>
 						</div>
 						
-						<!-- 						inicio tabela de usuarios cadastrados -->
+						<!-- 						inicio tabela de assuntos cadastrados -->
 						<div class="box-body no-padding">
 						<h:form id="dataTable">
-							<h:dataTable id="dtSolicitacoes" class="table table-bordered table-striped dataTable" aria-describedby="example1_info"
-							value="#{funcionarioBean.funcionariosE}" var="funcionario" emptyMessage="Nenhuma Solicitação">
+							<h:dataTable id="dtAssuntos" class="table table-bordered table-striped dataTable" aria-describedby="example1_info"
+							value="#{assuntoBean.assuntos}" var="a">
 															
 								<p:column>
-									<h:outputText value="#{funcionario.matricula}"
-										style="width: 150px; text-align: center;" />
-								</p:column>
-
-								<p:column>
-									<h:outputText value="#{funcionario.nome}" />
-								</p:column>
-
-								<p:column>
-									<h:outputText value="#{funcionario.perfil}" />
-								</p:column>
-								
-								<p:column>
-									<div align="center">
-									<p:commandLink title="Ativar" action="#{funcionarioBean.ativaFuncionario}"
-									update=":dataTable:dtSolicitacoes">
-                                   		<i class="fa fa-check"></i>
+									<p:commandLink title="Editar" ajax="false" update=":dataTable:dtAssuntos">
+                                   		<i class="fa fa-pencil"></i>
                                    		<f:ajax render="@all" />
-                                   		<f:setPropertyActionListener target="#{funcionarioBean.funcionario}" value="#{funcionario}" />
+                                   		<f:setPropertyActionListener target="#{assuntoBean.assunto}" value="#{a}" />
                                    	</p:commandLink>&nbsp;&nbsp;
                                    	
-                                   	<h:commandLink title="Remover Solicitação">	
+                                   	<h:commandLink title="Desativar">	
                                      	<i class="fa fa-trash-o"></i>
-                                     </h:commandLink>	
-                                	</div>
+                                     </h:commandLink>&nbsp;&nbsp;&nbsp;&nbsp;
+                                     
+									<h:outputText value="#{a.descricao}" />
+										
 								</p:column>
-								
-
+							
 							</h:dataTable>
 						</h:form>
 						</div>
-<!-- 						fim da tabela de usuarios -->
+<!-- 						fim da tabela de assuntos -->
 					</div>
 					
 					<!-- Map box -->
