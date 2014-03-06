@@ -9,12 +9,12 @@
 		<!--  <phase-listener>sisge.com.br.listener.Autorizador</phase-listener>-->
 		<phase-listener>sistema.com.br.listener.CicloDeVidaListener</phase-listener>
 	</lifecycle>
-<!--
+
 	<converter>
 		<converter-id>genericConverter</converter-id>
-		<converter-class>sisge.com.br.converter.GenericConverter</converter-class>
+		<converter-class>sistema.com.br.converter.GenericConverter</converter-class>
 	</converter>
-	
+<!--	
 	<converter>
 		<converter-id>cidadeConverter</converter-id>
 		<converter-class>sisge.com.br.converter.CidadeConverter</converter-class>

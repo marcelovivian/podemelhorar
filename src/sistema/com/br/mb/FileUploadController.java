@@ -1,5 +1,7 @@
 package sistema.com.br.mb;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -15,6 +17,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
+import javax.imageio.ImageIO;
 import javax.servlet.ServletContext;
 
 import org.primefaces.event.FileUploadEvent;
@@ -25,9 +28,9 @@ import sistema.com.br.entity.Assunto;
 import sistema.com.br.entity.Cidade;
 import sistema.com.br.entity.Foto;
 import sistema.com.br.entity.Sugestao;
+import sistema.com.br.util.ImagemUtil;
 import sistema.com.br.util.JsfArquivoUtil;
 import sistema.com.br.util.Msg;
-
 
 @ManagedBean
 @ViewScoped
@@ -40,41 +43,63 @@ public class FileUploadController implements Serializable {
 	private Sugestao sugestao = new Sugestao();
 	private Assunto assuntoSelecionado;
 	private Foto foto;
-	private List<Sugestao> sugestoesSaude;
+	private List<Sugestao> sugestoes;
+	private Cidade cidade;
 
 	public FileUploadController() {
 		// super();
-		sugestoesSaude = populaSugestoesSaude();
+		
+		CidadeBean cidadeBean = (CidadeBean) FacesContext.getCurrentInstance()
+				.getExternalContext().getSessionMap().get("cidadeBean");
+		cidade = cidadeBean.getSelectedCidade();
+		sugestoes = populaSugestoes();
 	}
 
-	public void enviarArquivo(FileUploadEvent event) {        
-		FacesMessage msg = new FacesMessage("Imagem enviada! Conclua o envio da sugestão.");
-		FacesContext.getCurrentInstance().addMessage(null, msg);
+	public void enviarArquivo(FileUploadEvent event) {
+		
 		String fileName = getRandomImageName() + ".png";
 
 		foto = new Foto();
 		foto.setNomeArquivo(fileName);
 		foto.setContentType(event.getFile().getContentType());
 		foto.setSize(event.getFile().getSize());
-		
+
 		byte[] file = event.getFile().getContents();
+		
+		InputStream in = new ByteArrayInputStream(file);
+		BufferedImage bufferedImage = null;
+		try {
+			bufferedImage = ImageIO.read(in);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		ServletContext servletContext = (ServletContext) FacesContext
 				.getCurrentInstance().getExternalContext().getContext();
-		
-		String pastaForaContexto = JsfArquivoUtil.lerConfig("imgPodeMelhorar");
-	    String caminhoPasta = servletContext.getRealPath(".." + pastaForaContexto + fileName);
-	    System.out.println(caminhoPasta);
-	    criaArquivo(file, caminhoPasta);
 
-//		try {
-//			copyFile(event.getFile().getInputstream(), fileName);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			FacesMessage msg2 = new FacesMessage("Falha", event.getFile()
-//					.getFileName() + " não foi enviado.");
-//			FacesContext.getCurrentInstance().addMessage(null, msg2);
-//		}
+		String pastaForaContexto = JsfArquivoUtil.lerConfig("imgPodeMelhorar");
+		String caminhoPasta = servletContext.getRealPath(".."
+				+ pastaForaContexto + fileName);
+		
+		String caminhoPastaDentroContexto = servletContext.getRealPath("")
+				+ File.separator + "photocam" + File.separator + fileName;
+		
+		System.out.println(caminhoPasta);
+		
+		BufferedImage imagemRedimensionada = ImagemUtil.redimensionar(bufferedImage, 400f);
+		try {
+			ImageIO.write(imagemRedimensionada, "JPG", new File(caminhoPasta));
+			ImageIO.write(imagemRedimensionada, "JPG", new File(caminhoPastaDentroContexto)); 
+		} catch (IOException e) {
+			FacesMessage msg = new FacesMessage("Erro ao enviar imagem.");
+			FacesContext.getCurrentInstance().addMessage(null, msg);
+			e.printStackTrace();
+		}
+		
+		FacesMessage msg = new FacesMessage("Imagem enviada! Conclua o envio da sugestão.");
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+//		System.out.println(caminhoPasta);
+//		criaArquivo(file, caminhoPasta);
 
 	}
 
@@ -87,58 +112,22 @@ public class FileUploadController implements Serializable {
 		sugestao.setCidade(cidadeBean.getSelectedCidade());
 		DAO<Sugestao> dao = new DAO<Sugestao>(Sugestao.class);
 		dao.adiciona(sugestao);
-		
+		foto = new Foto();
 		sugestao = new Sugestao();
 	}
-	
-	public void criaArquivo(byte[] bytes, String arquivo)
-	  {
-	    try
-	    {
-	      FileOutputStream fos = new FileOutputStream(arquivo);
-	      fos.write(bytes);
-	      fos.close();
-	    } catch (FileNotFoundException ex) {
-	      Logger.getLogger(FileUploadController.class.getName()).log(Level.SEVERE, null, ex);
-	    } catch (IOException ex) {
-	      Logger.getLogger(FileUploadController.class.getName()).log(Level.SEVERE, null, ex);
-	    }
-	  }
 
-	private void copyFile(InputStream in, String fileName) {
+	public void criaArquivo(byte[] bytes, String arquivo) {
 		try {
-
-			ServletContext servletContext = (ServletContext) FacesContext
-					.getCurrentInstance().getExternalContext().getContext();
-//			String destination = servletContext.getRealPath("")
-//					+ File.separator + "photocam" + File.separator;
-//			System.out.println(destination);
-			
-			String pastaForaContexto = JsfArquivoUtil.lerConfig("imgPodeMelhorar");
-		    String caminhoPasta = servletContext.getRealPath(".." + pastaForaContexto + fileName);
-			
-			// write the inputStream to a FileOutputStream
-//			OutputStream out = new FileOutputStream(new File(destination
-//					+ fileName));
-		    
-		    OutputStream out = new FileOutputStream(new File(caminhoPasta));
-
-			int read = 0;
-			byte[] bytes = new byte[1024];
-
-			while ((read = in.read(bytes)) != -1) {
-				out.write(bytes, 0, read);
-			}
-
-			in.close();
-			out.flush();
-			out.close();
-
-			System.out.println("New file created!");
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
+			FileOutputStream fos = new FileOutputStream(arquivo);
+			fos.write(bytes);
+			fos.close();
+		} catch (FileNotFoundException ex) {
+			Logger.getLogger(FileUploadController.class.getName()).log(
+					Level.SEVERE, null, ex);
+		} catch (IOException ex) {
+			Logger.getLogger(FileUploadController.class.getName()).log(
+					Level.SEVERE, null, ex);
 		}
-
 	}
 
 	private String getRandomImageName() {
@@ -153,14 +142,9 @@ public class FileUploadController implements Serializable {
 		return suggestions;
 	}
 
-	public List<Sugestao> populaSugestoesSaude() {
-		Assunto assunto = new Assunto();
-		assunto = new DAO<Assunto>(Assunto.class).buscaPorId(new Long("4"));
-		CidadeBean cidadeBean = (CidadeBean) FacesContext.getCurrentInstance()
-				.getExternalContext().getSessionMap().get("cidadeBean");
-		Cidade cidade = cidadeBean.getSelectedCidade();
+	public List<Sugestao> populaSugestoes() {
 		SugestaoDAO dao = new SugestaoDAO();
-		List<Sugestao> lista = dao.buscaSugestaos(cidade, assunto);
+		List<Sugestao> lista = dao.buscaSugestoesTop(cidade);
 		return lista;
 	}
 
@@ -188,11 +172,19 @@ public class FileUploadController implements Serializable {
 		this.foto = foto;
 	}
 
-	public List<Sugestao> getSugestoesSaude() {
-		return sugestoesSaude;
+	public Cidade getCidade() {
+		return cidade;
 	}
 
-	public void setSugestoesSaude(List<Sugestao> sugestoesSaude) {
-		this.sugestoesSaude = sugestoesSaude;
+	public void setCidade(Cidade cidade) {
+		this.cidade = cidade;
+	}
+
+	public List<Sugestao> getSugestoes() {
+		return sugestoes;
+	}
+
+	public void setSugestoes(List<Sugestao> sugestoes) {
+		this.sugestoes = sugestoes;
 	}
 }

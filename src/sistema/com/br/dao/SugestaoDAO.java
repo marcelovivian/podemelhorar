@@ -31,6 +31,20 @@ public class SugestaoDAO {
 		return list;
 	}
 	
+	public List<Sugestao> buscaSugestoesTop(Cidade cidade) {
+		new JPAUtil();
+		EntityManager em = JPAUtil.getEntityManager();
+		em.getTransaction().begin();
+		Query query = em.createQuery("from Sugestao s where s.cidade = :pCidade order by s.dataRegistro desc");
+		query.setParameter("pCidade", cidade);
+		List<Sugestao> list = query.setMaxResults(10).getResultList();
+		
+		em.getTransaction().commit();
+		em.close();
+		
+		return list;
+	}
+	
 	
 	
 	

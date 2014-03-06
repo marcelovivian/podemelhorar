@@ -21,16 +21,16 @@
 </h:head>
 
 <h:body>
-<!-- 	<style type="text/css"> -->
-<!-- /* .photo { */ -->
-<!-- /* 	width: 350px; */ -->
-<!-- /* 	height: 230px; */ -->
-<!-- /* } */ -->
+	<!-- 	<style type="text/css"> -->
+	<!-- /* .photo { */ -->
+	<!-- /* 	width: 350px; */ -->
+	<!-- /* 	height: 230px; */ -->
+	<!-- /* } */ -->
 
-<!-- /* .ui-carousel .ui-carousel-header { */ -->
-<!-- /* 	height: 30px; */ -->
-<!-- /* } */ -->
-<!-- </style> -->
+	<!-- /* .ui-carousel .ui-carousel-header { */ -->
+	<!-- /* 	height: 30px; */ -->
+	<!-- /* } */ -->
+	<!-- </style> -->
 	<!-- Side Menu -->
 	<a id="menu-toggle" href="#" class="btn btn-primary btn-lg toggle">Menu&nbsp;
 		<i class="fa fa-bars"></i>
@@ -40,12 +40,16 @@
 			<a id="menu-close" href="#"
 				class="btn btn-default btn-lg pull-right toggle"> <i
 				class="fa fa-times"></i></a>
-			<li class="sidebar-brand"><a href="../index.jsf">Escolha a	Cidade</a></li>
-			<li class="sidebar-brand"><a href="#portfolio">Apóie</a></li>		
+			<li class="sidebar-brand"><a href="../index.jsf">Escolha a
+					Cidade</a></li>
+			<li class="sidebar-brand"><a href="#portfolio">Apóie</a></li>
 			<li class="sidebar-brand"><a href="#about">Fotografe</a></li>
 			<li class="sidebar-brand"><a href="#apoio">Quem apoia</a></li>
-			<li class="sidebar-brand"><a href="podemelhorar/site/login.jsf" title="Área destinada ao administrador e Apoiador">Login</a></li>
-			<li class="sidebar-brand"><a href="/podemelhorar/site/novoApoiador.jsf" title="Área destinada ao administrador e Apoiador">Quero Apoiar</a></li>
+			<li class="sidebar-brand"><a href="podemelhorar/site/login.jsf"
+				title="Área destinada ao administrador e Apoiador">Login</a></li>
+			<li class="sidebar-brand"><a
+				href="/podemelhorar/site/novoApoiador.jsf"
+				title="Área destinada ao administrador e Apoiador">Quero Apoiar</a></li>
 		</ul>
 	</div>
 
@@ -55,28 +59,31 @@
 			<div class="row">
 				<div class="col-md-4 col-md-offset-4 text-center">
 					<h2>
-						Acompanhe o que <h:graphicImage value="/img/logo_cabecalho_mini.png" /> em
+						Acompanhe o que
+						<h:graphicImage value="/img/logo_cabecalho_mini.png" />
+						em
 						<h:outputText value="#{cidadeBean.selectedCidade.nome}" />
 					</h2>
 
 				</div>
 			</div>
-			
-<!-- 			Aqui será as sugestões -->
+
+			<!-- 			Aqui será as sugestões -->
 			<div class="row">
 				<div align="center">
 					<hr />
 					<div class="portfolio-item">
-				
-<!-- 						<p:galleria value="#{fileUploadController}" -->
-<!-- 							var="image" panelWidth="500" panelHeight="313" showCaption="true"> -->
-<!-- 							<p:graphicImage value="/photocam/#{image}" styleClass="img-portfolio img-responsive" -->
-<!-- 								title="#{image}" /> -->
-<!-- 						</p:galleria> -->
-						
+
+						<p:galleria value="#{fileUploadController.sugestoes}" var="image"
+							panelWidth="400" panelHeight="300" showCaption="true">
+							<p:graphicImage value="../photocam/#{image.foto.nomeArquivo}"
+								styleClass="img-portfolio img-responsive"
+								title="#{image.assunto.descricao}" />
+						</p:galleria>
+
 					</div>
 					<hr />
-					
+
 					<h:form style="font-size: 14px;">
 						<p:watermark value="Filtrar Assunto" for="assunto1" />
 						<p:autoComplete styleClass="lead"
@@ -87,7 +94,7 @@
 					</h:form>
 				</div>
 			</div>
-					
+
 		</div>
 	</div>
 	<!-- /Posts -->
@@ -110,13 +117,24 @@
 							de uso</a>.
 					</p>
 
-					<span class="input-xlarge text-left"> 
-					<h:form id="sugestao" enctype="multipart/form-data">
-					<p:growl id="messages" />
-
+					<span class="input-xlarge text-left"> <h:form id="sugestao"
+							enctype="multipart/form-data">
+							<p:growl id="messages" />
+							<div class="well">
+								<p:fileUpload id="enviar"
+									fileUploadListener="#{fileUploadController.enviarArquivo}"
+									label="Escolher Foto" auto="true" update="@form, messages"
+									mode="advanced" sizeLimit="5000000" fileLimit="1"
+									fileLimitMessage="Sua imagem já foi selecionada"
+									allowTypes="/(\.|\/)(gif|jpe?g|png)$/" dragDropSupport="false"
+									invalidSizeMessage="Tamanha maior que o permitido"
+									invalidFileMessage="Extensão não permitida"
+									uploadLabel="Enviar" cancelLabel="Cancelar">
+								</p:fileUpload>
+							</div>
 							<h:outputLabel value="Assunto:" for="assunto" styleClass="lead" />
-							<p:autoComplete styleClass="lead" style="margin-left: 4%;" size="15"
-							required="true" requiredMessage="Escolha o assunto"
+							<p:autoComplete styleClass="lead" style="margin-left: 4%;"
+								size="15" required="true" requiredMessage="Escolha o assunto"
 								value="#{fileUploadController.assuntoSelecionado}" id="assunto"
 								completeMethod="#{fileUploadController.completeAssunto}" var="p"
 								itemLabel="#{p.descricao}" itemValue="#{p}" dropdown="true"
@@ -125,7 +143,8 @@
 
 							<h:outputLabel value="Descrição:" styleClass="lead" />
 							<p:inputTextarea maxlength="200" styleClass="lead"
-								autoResize="true" id="descricao" required="true" requiredMessage="Faça uma breve descrição de sua sugestão"
+								autoResize="true" id="descricao" required="true"
+								requiredMessage="Faça uma breve descrição de sua sugestão"
 								value="#{fileUploadController.sugestao.descricao}"
 								style="margin-left: 1%;" />
 							<p:watermark for="descricao" value="descreva brevemente" />
@@ -133,35 +152,29 @@
 
 							<h:outputLabel value="Local:" styleClass="lead" />
 							<p:inputText id="local" styleClass="lead"
-								style="margin-left: 9%;" required="true" requiredMessage="Informe o local"
+								style="margin-left: 9%;" required="true"
+								requiredMessage="Informe o local"
 								value="#{fileUploadController.sugestao.local}" />
 							<p:watermark for="local" value="nome, bairro ou rua" />
 							<p />
 
 							<h:outputLabel value="Seu e-mail:" styleClass="lead" />
-							<p:inputText id="email" styleClass="lead" required="true" requiredMessage="Seu email não será divulgado"
-								value="#{fileUploadController.sugestao.email}" validatorMessage="Email inválido" />
+							<p:inputText id="email" styleClass="lead" required="true"
+								requiredMessage="Seu email não será divulgado"
+								value="#{fileUploadController.sugestao.email}"
+								validatorMessage="Email inválido" />
 							<p:watermark for="email" value="não será divulgado" />
 							<p />
-							
-							<div class="well">
-							<p:fileUpload
-								fileUploadListener="#{fileUploadController.enviarArquivo}"
-								label="Escolher Foto"	auto="true" update="messages" mode="simple"
-								sizeLimit="2000000" fileLimit="1" fileLimitMessage="Sua imagem já foi selecionada"
-								allowTypes="/(\.|\/)(gif|jpe?g|png)$/" dragDropSupport="false"
-								invalidSizeMessage="Tamanha maior que o permitido"
-								invalidFileMessage="Extensão não permitida" uploadLabel="Enviar"
-								cancelLabel="Cancelar" />
-							</div>
 
 							<br />
 
 							<div align="center">
-								<p:commandButton id="btnEnviar" value="Enviar Sugestão" update="sugestao" styleClass="btn btn-primary"
-								actionListener="#{fileUploadController.salvarSugestao}" icon="ui-icon-circle-check">
-										<f:ajax execute="@this" render="btnEnviar" />
-								</p:commandButton>	
+								<p:commandButton id="btnEnviar" value="Enviar Sugestão"
+									update="sugestao" styleClass="btn btn-primary"
+									actionListener="#{fileUploadController.salvarSugestao}"
+									icon="ui-icon-circle-check">
+									<f:ajax execute="@this" render="btnEnviar" />
+								</p:commandButton>
 							</div>
 
 						</h:form>
@@ -171,7 +184,7 @@
 		</div>
 	</div>
 	<!-- /Intro -->
-	
+
 	<!-- Apoio -->
 	<div class="call-to-action" id="apoio">
 		<div class="container">
@@ -179,35 +192,34 @@
 				<div align="center">
 
 					<h2>Veja quem esta apoiando esta iniciativa</h2>
-					
-					<h:form style="width: 280px;">
-						
-					<p:dataGrid var="g" columns="1"
-						rows="6" paginator="true"
-						paginatorPosition="bottom"
-						emptyMessage="Nenhum Gestor Público Cadastrado">
 
-						<p:panel style="text-align:center;">
-							<f:facet name="header">#{g.nome}</f:facet>
-						</p:panel>
-					</p:dataGrid>
-					
+					<h:form style="width: 280px;">
+
+						<p:dataGrid var="g" columns="1" rows="6" paginator="true"
+							paginatorPosition="bottom"
+							emptyMessage="Nenhum Gestor Público Cadastrado">
+
+							<p:panel style="text-align:center;">
+								<f:facet name="header">#{g.nome}</f:facet>
+							</p:panel>
+						</p:dataGrid>
+
 					</h:form>
 
 				</div>
-				
+
 			</div>
 		</div>
 	</div>
 	<!-- /Apoio -->
-	
+
 	<!-- Callout fundo -->
 	<div class="callout" id="acompanhe">
 		<div class="vert-text" />
 		<h3>Boa Vista - RR</h3>
-		
-	</div>	
-	
+
+	</div>
+
 
 	<!-- Dialog Enviado -->
 
@@ -254,18 +266,19 @@
 	</div>
 	</footer>
 	<!-- /Footer -->
-	
+
 	<!-- 			informar a cidade antes -->
-		<p:dialog rendered="#{cidadeBean.selectedCidade.id==null}" header="Erro"
-			visible="true" resizable="false" closable="false" modal="true">
-			<div align="center">
+	<p:dialog rendered="#{cidadeBean.selectedCidade.id==null}"
+		header="Erro" visible="true" resizable="false" closable="false"
+		modal="true">
+		<div align="center">
 
-				
-				Por favor, informe a cidade<br /><br />
-				<a href="index.jsf">Escolher Cidade</a><br />
 
-			</div>
-		</p:dialog>
+			Por favor, informe a cidade<br />
+			<br /> <a href="index.jsf">Escolher Cidade</a><br />
+
+		</div>
+	</p:dialog>
 
 
 
