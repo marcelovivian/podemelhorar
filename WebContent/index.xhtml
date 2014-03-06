@@ -10,12 +10,15 @@
 <h:head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Pode Melhorar</title>
+	<link rel="shortcut icon" href="/podemelhorar/resources/img/favicon.ico" />
 	<!-- Bootstrap core CSS -->
 	<link href="css/bootstrap.css" rel="stylesheet" />
 
 	<!-- Add custom CSS here -->
 	<link href="css/stylish-portfolio.css" rel="stylesheet" />
 	<link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+	
+	
 
 
 </h:head>
@@ -51,32 +54,31 @@
 	<!-- Full Page Image Header Area -->
 	<div id="top" class="header">
 		<div class="vert-text">
-			<h:graphicImage value="/img/logo_cabecalho.png" />
+			<h:graphicImage value="/img/logo_cabecalho_mini.png" styleClass="logomarca" />
+			<h:graphicImage value="/img/logo_cabecalho.png" styleClass="logomarcaLarge" />
 			<h3>
 				<em>VOCÊ</em> fotografa, <em>NÓS</em> mostramos pra quem pode
 				resolver.
 			</h3>
-			<h:form>
+			<h:form id="informeCidade">
 				<p:growl id="growl" autoUpdate="true" />
-				<p:watermark value="Cidade " for="basicPojo" />
 				<p:focus context="basicPojo" />
+				<p:watermark value="Cidade" for="basicPojo" />
 
 				<h3>
 					<p:autoComplete value="#{cidadeBean.selectedCidade}" id="basicPojo"
 						label="basicPojo" completeMethod="#{cidadeBean.completeCidade}"
-						var="p" itemLabel="#{p.nome} #{p.estado}" itemValue="#{p}"
-						converter="converter" forceSelection="true" minQueryLength="3"
+						var="p" itemLabel="#{p.nome}" itemValue="#{p}"
+						converter="converter" forceSelection="true" minQueryLength="1"
 						queryDelay="30" emptyMessage="Cidade Não Encontrada"
-						required="true"
-						requiredMessage="Informe a cidade que deseja">
-						<f:ajax event="change" />
-					</p:autoComplete>
+						required="true" title="é necessário clicar no nome da cidade"
+						requiredMessage="Informe a cidade que deseja" />
+						<p:tooltip for="basicPojo" showEvent="focus" hideEvent="blur" showEffect="clip" />
 				</h3>
 
-				<p:commandButton value="Iniciar" styleClass="btn btn-info"
+				<p:commandButton value="Iniciar" styleClass="btn btn-primary"
 					style="font-weight: bolder; font-size: 16px;"
 					action="#{cidadeBean.escolheCidade}" ajax="false" />
-				<!--  <a href="#services" class="btn btn-default btn-lg">Iniciar</a> -->
 			</h:form>
 		</div>
 	</div>

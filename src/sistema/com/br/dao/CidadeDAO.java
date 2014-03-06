@@ -18,8 +18,8 @@ public class CidadeDAO {
 		em.getTransaction().begin();
 		cidade = cidade.toUpperCase();
 		System.out.println(cidade);
-		Query query = em.createQuery("from Cidade c where upper(c.nome) like :pCidade and c.ativo = 'true' order by c.nome");
-		query.setParameter("pCidade", "%" + cidade + "%");
+		Query query = em.createQuery("from Cidade c where upper(c.nome) like :pCidade order by c.nome");
+		query.setParameter("pCidade", cidade + "%");
 				
 		List<Cidade> list = query.getResultList();
 		

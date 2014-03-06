@@ -1189,7 +1189,7 @@ body > .header .logo .icon {
   background: rgba(0, 0, 0, 0.15);
 }
 .small-box h3 {
-  font-size: 38px;
+  font-size: 30px;
   font-weight: bold;
   margin: 0 0 10px 0;
   white-space: nowrap;
@@ -2476,9 +2476,7 @@ Component: timeline
 .skin-blue .logo > a {
   color: #f9f9f9;
 }
-.skin-blue .logo:hover {
-  background: #357ca5;
-}
+
 /* Skin-blue user panel */
 .skin-blue .user-panel > .image > img {
   border: 1px solid #dfdfdf;

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="LATIN1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/admin/_template.xhtml">
+	<ui:define name="title">
+	<h1>
+		<h:outputLabel styleClass="title" value="APOIADOR" />
+	</h1>
+	</ui:define>
+	<ui:define name="corpo">
+	
+			<div class="wrapper row-offcanvas row-offcanvas-left">
+				
+<!-- 				título -->
+				<aside class="right-side">
+				
+				<section class="content"> <!-- Small boxes (Stat box) -->
+				
+				<div class="row">
+									
+				</div>
+				
+				<div class="row">
+					<div class="col-xs-12 connectedSortable"></div>
+					<!-- /.col -->
+				</div>
+				<!-- /.row --> <!-- Main row -->
+				
+				<div class="row">
+				
+					<!-- Left col -->
+					<section class="col-lg-12 connectedSortable"> <!-- Box (with bar chart) -->
+					<div class="box box-primary" id="loading-example">
+					<h:form id="dataTableGestores">
+						<div class="box-header">
+							<i class="fa fa-user" style="color: #3c8dbc;"></i>
+
+							<h3 class="box-title">
+								<h:outputText value="Apoiadores" style="color: #3c8dbc;" rendered="#{gestorPublicoBean.gestor.id==null}" />
+							</h3>
+							
+							<h3 class="box-title">
+								<h:outputText value="#{g.nome}" rendered="#{gestorPublicoBean.gestor.id!=null}" style="color: #3c8dbc;" />
+							</h3>
+						</div>
+						<!-- /.box-header -->
+						
+<!-- 						inicio tabela de usuarios cadastrados -->
+						<div class="box-body no-padding">
+						
+							<h:dataTable id="dtGestores" class="table table-bordered table-striped dataTable" aria-describedby="example1_info"
+							value="#{gestorPublicoBean.listaGestorPublicoAtivado}" var="g" rendered="#{gestorPublicoBean.gestor.id==null}">
+								<p:column>
+									<f:facet name="header">Tipo</f:facet>
+									<h:outputText value="#{g.tipo}" title="A = Apoiador Pago, G = Grátis" />
+								</p:column>
+															
+								<p:column>
+									<f:facet name="header">Nome</f:facet>
+									<h:outputText value="#{g.nome}" />
+								</p:column>
+								
+								<p:column>
+									<f:facet name="header">CPF / CNPJ</f:facet>
+									<h:outputText value="#{g.cpfCnpj}" />
+								</p:column>
+								
+								<p:column>
+									<f:facet name="header">e-mail</f:facet>
+									<h:outputText value="#{g.email}" />
+								</p:column>
+								
+								<p:column>
+									<f:facet name="header">Telefone</f:facet>
+									<h:outputText value="#{g.telefone}" />
+								</p:column>
+								
+								<p:column width="5">
+									<f:facet name="header">Cidade</f:facet>
+									<h:outputText value="#{g.cidade.nome} - #{g.cidade.estado}" />
+								</p:column>
+								
+								<p:column width="5">
+									<f:facet name="header">Registro</f:facet>
+									<h:outputText value="#{g.dataRegistro.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" />
+									</h:outputText>
+								</p:column>
+								
+								<p:column style="text-align: center;">
+									<p:commandLink title="Mais informações" action="#{gestorPublicoBean.ativarGestorPublico}"
+									update=":dataTable:dtSolicitacoes" ajax="false">
+                                   		<i class="fa fa-search"></i>
+                                   		<f:ajax render="@all" />
+                                   		<f:setPropertyActionListener target="#{gestorPublicoBean.gestor}" value="#{g}" />
+                                   	</p:commandLink>&nbsp;&nbsp;
+                                   	
+                                   	<h:commandLink title="Editar dados">	
+                                     	<i class="fa fa-pencil"></i>
+                                    </h:commandLink>&nbsp;&nbsp;
+                                   	                                  	
+                                   	<h:commandLink title="Remover perfil">	
+                                     	<i class="fa fa-trash-o"></i>
+                                    </h:commandLink>
+								</p:column>
+                                     
+
+							</h:dataTable>
+
+						</div>
+<!-- 						fim da tabela de usuarios -->
+						
+						</h:form>	
+					</div>
+
+					</section>
+													
+				</div>
+				<!-- /.row (main row) --> </section><!-- /.content --> </aside>
+				<!-- /.right-side -->
+			</div>
+
+	</ui:define>
+</ui:composition>
+
+</html>

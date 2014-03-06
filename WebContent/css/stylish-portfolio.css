@@ -120,11 +120,38 @@ body {
   height: 100%;
   width: 100%;
   position: relative;
-  background: url(../img/background.png) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  
+background: rgb(222,239,255); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(222,239,255,1) 0%, rgba(152,190,222,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,rgba(152,190,222,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 }
 
 /* Intro */
@@ -174,7 +201,6 @@ i.service-icon {
   display: table;
   height: 400px;
   width: 100%;
-  background: url(../img/fundo.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -258,12 +284,15 @@ i.scroll:hover {
 
 @media (max-width: 768px) {
 	
-  .logo {
-  	background: url(../img/logo_cabecalho_mini.png) no-repeat center center scroll;
-  }		
-	
   .header {
-	background: url(../img/bg.jpg) no-repeat center center scroll; 
+background: rgb(222,239,255); /* Old browsers */
+background: -moz-linear-gradient(top,  rgba(222,239,255,1) 0%, rgba(152,190,222,1) 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(222,239,255,1)), color-stop(100%,rgba(152,190,222,1))); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* IE10+ */
+background: linear-gradient(to bottom,  rgba(222,239,255,1) 0%,rgba(152,190,222,1) 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#deefff', endColorstr='#98bede',GradientType=0 ); /* IE6-9 */
   }
 
   .callout {
@@ -283,6 +312,20 @@ i.scroll:hover {
 @media (max-width: 480px) {
 	
  .ocultar1, .ocultar2, .ocultar3, .ocultar4 {
+  	display: none;
+  	}
+}
+
+@media (min-width: 480px) {
+	
+ .logomarca {
+  	display: none;
+  	}
+}
+
+@media (max-width: 480px) {
+	
+ .logomarcaLarge {
   	display: none;
   	}
 }

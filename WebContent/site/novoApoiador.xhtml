@@ -16,6 +16,7 @@
 	<!-- Add custom CSS here -->
 	<link href="../css/stylish-portfolio.css" rel="stylesheet" />
 	<link href="../font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+	<link rel="shortcut icon" href="/podemelhorar/resources/img/favicon.ico" />
 
 
 </h:head>
@@ -51,58 +52,69 @@
 										
 					<h:form id="sugestao"
 							enctype="multipart/form-data">
+							<p:focus context="nome" for="nome" />
 							<p:growl id="messages" />
 							
-							<h:outputLabel value="Nome:" styleClass="lead" />
-							<p:inputText id="local" styleClass="lead"
-								style="margin-left: 2%;" required="true"
-								requiredMessage="Informe o local"
-								value="#{fileUploadController.sugestao.local}" />
-							<p:watermark for="local" value="seu nome ou do órgão" />
+							<p:inputText id="nome" styleClass="lead" size="20"
+								style="margin-left: 2%;" value="#{gestorPublicoBean.gestor.nome}" title="seu nome ou nome do orgão" />
+							<p:watermark for="nome" value="Nome" />
+							<p:tooltip for="nome" showEvent="focus" hideEvent="blur" showEffect="clip" />
+							
+							<p:inputText id="cpfcnpj" styleClass="lead" style="margin-left: 2%;"
+								value="#{gestorPublicoBean.gestor.cpfCnpj}" />
+							<p:watermark for="cpfcnpj" value="CPF / CNPJ" />
 							<p />
 
-							<h:outputLabel value="e-mail:" styleClass="lead" />
-							<p:inputText id="email" styleClass="lead" required="true"
-								requiredMessage="Seu email não será divulgado" style="margin-left: 2%;"
-								value="#{fileUploadController.sugestao.email}" />
-							<p:watermark for="email" value="não será divulgado" />
+							<p:inputText id="email" styleClass="lead" style="margin-left: 2%;"
+								value="#{gestorPublicoBean.gestor.email}" title="seu email não será divulgado" />
+							<p:watermark for="email" value="Email" />
+							<p:tooltip for="email" showEvent="focus" hideEvent="blur" showEffect="clip" />
+							
+							<p:inputMask id="fone" styleClass="lead" mask="(99)9999-9999"
+								style="margin-left: 2%;"
+								value="#{gestorPublicoBean.gestor.telefone}" title="seu contato não será divulgado" />
+							<p:watermark for="fone" value="Telefone" />
+							<p:tooltip for="fone" showEvent="focus" hideEvent="blur" showEffect="clip" />
 							<p />
+							
+							<h:outputLabel value="Deseja obter o perfil gratuito?" for="assunto" styleClass="lead" />
+							<p:selectOneRadio value="#{gestorPublicoBean.gestor.tipo}">
+								<f:selectItem itemLabel="Sim" itemValue="G" />
+								<f:selectItem itemLabel="Não" itemValue="A" />
+							</p:selectOneRadio>
 							<hr />
 
-							<h:outputLabel value="Assunto:" for="assunto" styleClass="lead" />
-							<p:selectManyCheckbox  id="grid" layout="grid" columns="3">  
+							<h:outputLabel value="Desejo receber notificação deste(s) assunto(s):" for="assunto" styleClass="lead" />
+							
+							<p:selectOneListbox style="height: 200px; width: 200px;" value="#{gestorPublicoBean.idAssunto}"  id="grid">  
            	 					<f:selectItems value="#{assuntoBean.listaDeAssuntos}" itemLabel="#{a.descricao}" itemValue="#{a.id}" var="a"/>  
-        					</p:selectManyCheckbox >
+        					</p:selectOneListbox>
+         					<p />
+         					
+        					<p:commandButton id="btnAssunto" value="Add" update="assuntos messages"
+        					icon="ui-icon-arrowthick-1-s" actionListener="#{gestorPublicoBean.guardaAssunto}">
+        						<f:ajax render="btnAssunto" execute="@this" />
+        					</p:commandButton>
+        					<p />
+                 				
+                 			<p:dataList type="definition" value="#{gestorPublicoBean.gestor.assuntosGestoresPublicos}" style="height: 200px; width: 200px;"
+                 			var="g" id="assuntos" emptyMessage="assuntos selecionados...">
+                 			<f:facet name="header">Escolhidos</f:facet>  
+                 				
+    							<p:column width="400">
+    								#{g.assunto.descricao}
+    							</p:column>
+    							
+    							<p:column>
+    							<p:commandLink title="Remover" value="#{gestorPublicoBean.removeAssunto()}" update=":sugestao:assuntos" ajax="false">	
+                                 	<i class="fa fa-trash-o"></i>
+                                 		<f:setPropertyActionListener target="#{gestorPublicoBean.assuntoGestorPublico}" value="#{g}" />
+                                 		<f:ajax render="@all" />
+                                </p:commandLink>
+    							</p:column>
+                    				
+                 			</p:dataList>	
 							<hr />
-							
-							<h:outputLabel value="Cidade:" for="cidade" styleClass="lead" />
-							<p:autoComplete styleClass="lead" style="margin-left: 4%;"
-								size="15" required="true" requiredMessage="Escolha o assunto"
-								value="#{gestorPublicoBean.assuntoSelecionado}" id="cidade"
-								completeMethod="#{gestorPublicoBean.completeAssunto}" var="p"
-								itemLabel="#{p.descricao}" itemValue="#{p}" dropdown="true"
-								converter="converter" forceSelection="true" minQueryLength="3" />
-								
-								<p:commandButton id="btnAdicionarCidade" value="Adicionar"
-									actionListener="#{gestorPublicoBean.adicionarAssunto}"
-									ajax="true"
-									icon="ui-icon-circle-check">
-								</p:commandButton>
-							
-							<p:dataTable id="cidades" var="obj"
-								value="#{gestorPublicoBean.assuntos}">
-								<f:facet name="header">  
-            						Cidades de Interesse  
-        						</f:facet>
-								<p:column headerText="Descrição">  
-            						#{obj.descricao}  
-        						</p:column>
-								<p:column headerText="">  
-            						apagar  
-        						</p:column>
-							</p:dataTable>
-							<hr />
-							<p />
 							
 							<h:outputLabel value="Foto ou Logotipo:" styleClass="lead" />
 							<div class="well">
@@ -119,7 +131,7 @@
 
 							<div align="center">
 								<p:commandButton id="btnEnviar" value="Continuar"
-									update="sugestao" styleClass="btn btn-info"
+									update="sugestao" styleClass="btn btn-primary"
 									actionListener="#{fileUploadController.salvarSugestao}"
 									icon="ui-icon-circle-check">
 									<f:ajax execute="@this" render="btnEnviar" />
@@ -195,7 +207,8 @@
 						2. A contagem dos pontos para o ranking é efetuada por respostas.
 						Quanto mais participação em respostas, mais pontos!</p>
 					<p class="lead text-justify">3. O apoiador tem acesso restrito, e pode emitir relatórios
-					de assuntos mais comentados, entre outros. Atenção! A emissão de relatório é válido somente
+					de assuntos mais comentados, entre outros.</p>
+					<p class="lead text-justify">4. Atenção! A emissão de relatório é válido somente
 					para apoiadores cujo perfil não é gratuito.</p>
 
 				</div>

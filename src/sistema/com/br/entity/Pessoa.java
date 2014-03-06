@@ -16,6 +16,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.validator.constraints.Email;
+
 import sistema.com.br.converter.BaseEntity;
 
 @Entity
@@ -29,13 +31,11 @@ public class Pessoa implements BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 	
-	//@Column(name = "TP_PESSOA", length = 1, nullable = false, insertable = true, updatable = true)
-	//private Character tipoPessoa;
-	
 	private String nome;
 	
 	private String telefone;
 	
+	@Email
 	private String email;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -49,14 +49,6 @@ public class Pessoa implements BaseEntity {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-//	public Character getTipoPessoa() {
-//		return tipoPessoa;
-//	}
-//
-//	public void setTipoPessoa(Character tipoPessoa) {
-//		this.tipoPessoa = tipoPessoa;
-//	}
 
 	public String getNome() {
 		return nome;

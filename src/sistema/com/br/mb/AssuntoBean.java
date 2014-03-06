@@ -34,13 +34,14 @@ public class AssuntoBean implements Serializable {
 		DAO<Assunto> daoAssunto = new DAO<Assunto>(Assunto.class);
 		assuntos = daoAssunto.getAllOrder("descricao");
 	}
-	
+
 	/** carregar lista **/
 
 	public List<Assunto> getListaDeAssuntos() {
 		if (listaDeAssuntos == null) {
 			System.out.println("Carregando assuntos...");
-			listaDeAssuntos = new DAO<Assunto>(Assunto.class).getAllOrder("descricao");
+			listaDeAssuntos = new DAO<Assunto>(Assunto.class)
+					.getAllOrder("descricao");
 		}
 		return assuntos;
 	}
@@ -65,27 +66,27 @@ public class AssuntoBean implements Serializable {
 				Msg.addMsgInfo("Assunto Cadastrado!");
 				dao.adiciona(assunto);
 				this.assunto = new Assunto();
-				
+
 				return "assunto?faces-redirect=true";
 
 			}
 		} catch (Exception e) {
 			init();
 			e.printStackTrace();
-			System.out.println("...Alguma coisa deu errada ao cadastrar assunto");
+			System.out
+					.println("...Alguma coisa deu errada ao cadastrar assunto");
 		}
 		return null;
 
 	}
-	
+
 	// atualiza assunto
 	public void editarAssunto() {
-		if(assunto.getId()!=null) {
+		if (assunto.getId() != null) {
 			Msg.addMsgInfo("Assunto Atualizado!");
 			dao.atualiza(assunto);
 			assunto = new Assunto();
-		}
-		else {
+		} else {
 			Msg.addMsgError("Não Foi Possível Atualizar Assunto");
 		}
 	}

@@ -10,6 +10,7 @@
 <h:head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>Pode Melhorar</title>
+	<link rel="shortcut icon" href="/podemelhorar/resources/img/favicon.ico" />
 	<!-- Bootstrap core CSS -->
 	<link href="../css/bootstrap.css" rel="stylesheet" />
 
@@ -21,16 +22,13 @@
 </h:head>
 
 <h:body>
-<!-- 	<style type="text/css"> -->
-<!-- /* .photo { */ -->
-<!-- /* 	width: 350px; */ -->
-<!-- /* 	height: 230px; */ -->
-<!-- /* } */ -->
 
-<!-- /* .ui-carousel .ui-carousel-header { */ -->
-<!-- /* 	height: 30px; */ -->
-<!-- /* } */ -->
-<!-- </style> -->
+<style type="text/css">
+	.callout {
+		background: url(../img/#{cidadeBean.selectedCidade.foto}) no-repeat center center fixed; 
+	}
+</style>
+
 	<!-- Side Menu -->
 	<a id="menu-toggle" href="#" class="btn btn-primary btn-lg toggle">Menu&nbsp;
 		<i class="fa fa-bars"></i>
@@ -44,7 +42,7 @@
 			<li class="sidebar-brand"><a href="#portfolio">Apóie</a></li>		
 			<li class="sidebar-brand"><a href="#about">Fotografe</a></li>
 			<li class="sidebar-brand"><a href="#apoio">Quem apoia</a></li>
-			<li class="sidebar-brand"><a href="podemelhorar/site/login.jsf" title="Área destinada ao administrador e Apoiador">Login</a></li>
+			<li class="sidebar-brand"><a href="/podemelhorar/site/login.jsf" title="Área destinada ao administrador e Apoiador">Login</a></li>
 			<li class="sidebar-brand"><a href="/podemelhorar/site/novoApoiador.jsf" title="Área destinada ao administrador e Apoiador">Quero Apoiar</a></li>
 		</ul>
 	</div>
@@ -147,7 +145,7 @@
 							<div class="well">
 							<p:fileUpload
 								fileUploadListener="#{fileUploadController.enviarArquivo}"
-								label="Escolher Foto"	auto="true" update="messages" mode="simple"
+								label="Escolher Foto" auto="true" update="messages"
 								sizeLimit="2000000" fileLimit="1" fileLimitMessage="Sua imagem já foi selecionada"
 								allowTypes="/(\.|\/)(gif|jpe?g|png)$/" dragDropSupport="false"
 								invalidSizeMessage="Tamanha maior que o permitido"

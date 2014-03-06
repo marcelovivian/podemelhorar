@@ -7,11 +7,9 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-<ui:composition template="/_template.xhtml">
+<ui:composition template="/admin/_template.xhtml">
 	<ui:define name="corpo">
 	
-	<p:growl />
-
 			<div class="wrapper row-offcanvas row-offcanvas-left">
 				
 <!-- 				título -->
@@ -54,7 +52,7 @@
 							<div class="icon">
 								<i class="ion ion-person"></i>
 							</div>
-							<a href="SolicitacaoDeCadastro2.xhtml" class="small-box-footer"> Mais informações <i
+							<a href="/podemelhorar/admin/apoiador.jsf" class="small-box-footer"> Mais informações <i
 								class="fa fa-arrow-circle-right"></i>
 							</a>
 						</div>
@@ -107,41 +105,42 @@
 					<!-- Left col -->
 					<section class="col-lg-6 connectedSortable"> <!-- Box (with bar chart) -->
 					<div class="box box-primary" id="loading-example">
+					<h:form id="dataTableGestores">
 						<div class="box-header">
 							<i class="fa fa-user" style="color: #3c8dbc;"></i>
 
 							<h3 class="box-title">
-								<h:outputText value="Apoiadores" style="color: #3c8dbc;" />
+								<h:outputText value="Apoiadores" style="color: #3c8dbc;" rendered="#{gestorPublicoBean.gestor.id==null}" />
+							</h3>
+							
+							<h3 class="box-title">
+								<h:outputText value="#{g.nome}" rendered="#{gestorPublicoBean.gestor.id!=null}" style="color: #3c8dbc;" />
 							</h3>
 						</div>
 						<!-- /.box-header -->
 						
 <!-- 						inicio tabela de usuarios cadastrados -->
 						<div class="box-body no-padding">
-							<h:dataTable id="example1" class="table table-bordered table-striped dataTable" aria-describedby="example1_info"
-							value="#{funcionarioBean.funcionariosA}" var="funcionario" emptyMessage="Não Encontrado">
+						
+							<h:dataTable id="dtGestores" class="table table-bordered table-striped dataTable" aria-describedby="example1_info"
+							value="#{gestorPublicoBean.listaGestorPublicoAtivado}" var="g" rendered="#{gestorPublicoBean.gestor.id==null}">
 
-								<p:column headerText="Matricula"
-									sortBy="#{funcionario.matricula}"
-									filterBy="#{funcionario.matricula}" filterMatchMode="contains">
-									<h:outputText value="#{funcionario.matricula}"
-										style="width: 150px; text-align: center;" />
+								<p:column>
+                                   	<i class="fa fa-user"></i>&nbsp;&nbsp;
+                                   	                                   	
+									<h:outputText value="#{g.nome}" />
 								</p:column>
-
-								<p:column headerText="Nome" sortBy="#{funcionario.nome}"
-									filterBy="#{funcionario.nome}" filterMatchMode="contains">
-									<h:outputText value="#{funcionario.nome}" />
-								</p:column>
-
-								<p:column headerText="Perfil" sortBy="#{funcionario.perfil}"
-									filterBy="#{funcionario.perfil}" filterMatchMode="contains">
-									<h:outputText value="#{funcionario.perfil}" />
+								
+								<p:column width="5">
+									<h:outputText value="#{g.cidade.nome}" />
 								</p:column>
 
 							</h:dataTable>
+							
 						</div>
 <!-- 						fim da tabela de usuarios -->
 						
+						</h:form>	
 					</div>
 
 					</section>
@@ -155,49 +154,51 @@
 
 							<h3 class="box-title">
 								<h:outputText value="Novas Solicitações" style="color: #f56954;" 
-									rendered="#{not empty funcionarioBean.funcionariosE}" />
+									rendered="#{not empty gestorPublicoBean.listaSolicitacaoGestorPublico}" />
 									
 								<h:outputText value="Nenhuma Solicitação" style="color: #f56954;" 
-									rendered="#{empty funcionarioBean.funcionariosE}"/>
+									rendered="#{empty gestorPublicoBean.listaSolicitacaoGestorPublico}"/>
 							</h3>
 						</div>
 						
-						<!-- 						inicio tabela de usuarios cadastrados -->
+						<!-- 						inicio tabela de solicitacoes -->
 						<div class="box-body no-padding">
 						<h:form id="dataTable">
 							<h:dataTable id="dtSolicitacoes" class="table table-bordered table-striped dataTable" aria-describedby="example1_info"
-							value="#{funcionarioBean.funcionariosE}" var="funcionario" emptyMessage="Nenhuma Solicitação">
+							value="#{gestorPublicoBean.listaSolicitacaoGestorPublico}" var="g" emptyMessage="Nenhuma Solicitação">
 															
 								<p:column>
-									<h:outputText value="#{funcionario.matricula}"
+									<p:commandLink title="Ativar" action="#{gestorPublicoBean.ativarGestorPublico}"
+									update=":dataTable:dtSolicitacoes" ajax="false">
+                                   		<i class="fa fa-check"></i>
+                                   		<f:ajax render="@all" />
+                                   		<f:setPropertyActionListener target="#{gestorPublicoBean.gestor}" value="#{g}" />
+                                   	</p:commandLink>&nbsp;&nbsp;
+                                   	                                  	
+                                   	<h:commandLink title="Remover Solicitação">	
+                                     	<i class="fa fa-trash-o"></i>
+                                     </h:commandLink>&nbsp;&nbsp;
+                                     
+									<h:outputText value="#{g.nome}"
 										style="width: 150px; text-align: center;" />
 								</p:column>
 
-								<p:column>
-									<h:outputText value="#{funcionario.nome}" />
+								<p:column width="5" style="text-align: center;">
+									<h:outputText value="#{g.tipo}" />
+								</p:column>
+								
+								<p:column width="5">
+									<h:outputText value="#{g.cidade.nome}" />
 								</p:column>
 
 								<p:column>
-									<h:outputText value="#{funcionario.perfil}" />
+									<h:outputText value="#{g.dataRegistro.time}">
+										<f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy" />
+									</h:outputText>
 								</p:column>
-								
-								<p:column>
-									<div align="center">
-									<p:commandLink title="Ativar" action="#{funcionarioBean.ativaFuncionario}"
-									update=":dataTable:dtSolicitacoes">
-                                   		<i class="fa fa-check"></i>
-                                   		<f:ajax render="@all" />
-                                   		<f:setPropertyActionListener target="#{funcionarioBean.funcionario}" value="#{funcionario}" />
-                                   	</p:commandLink>&nbsp;&nbsp;
-                                   	
-                                   	<h:commandLink title="Remover Solicitação">	
-                                     	<i class="fa fa-trash-o"></i>
-                                     </h:commandLink>	
-                                	</div>
-								</p:column>
-								
 
 							</h:dataTable>
+							<p:messages autoUpdate="true" />
 						</h:form>
 						</div>
 <!-- 						fim da tabela de usuarios -->
@@ -212,6 +213,8 @@
 				</div>
 				<!-- /.row (main row) --> </section><!-- /.content --> </aside>
 				<!-- /.right-side -->
+				
+				<!-- 		dialog autorizar apoiador -->
 			</div>
 
 	</ui:define>

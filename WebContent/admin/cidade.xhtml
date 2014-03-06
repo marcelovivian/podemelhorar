@@ -10,7 +10,7 @@
 <ui:composition template="/admin/_template.xhtml">
 	<ui:define name="title">
 	<h1>
-		<h:outputLabel styleClass="title" value="ASSUNTO" />
+		<h:outputLabel styleClass="title" value="CIDADE" />
 	</h1>
 	</ui:define>
 	
@@ -21,9 +21,11 @@
 <!-- 				título -->
 				<aside class="right-side">
 				
+				
 				<section class="content"> <!-- Small boxes (Stat box) -->
 				
 				<div class="row">
+				
 					
 				</div>
 				
@@ -36,44 +38,63 @@
 				<div class="row">
 					<!-- Left col -->
 					<section class="col-lg-6 connectedSortable"> <!-- Box (with bar chart) -->
-					<div class="box box-primary" id="loading-example">
+					<div class="box box-info" id="loading-example">
+						<p:messages autoUpdate="true" id="messages" />
 						<div class="box-header">
 							<i class="fa fa-plus" style="color: #3c8dbc;"></i>
 
 							<h3 class="box-title">
-								<h:outputText value="Novo Assunto" style="color: #3c8dbc;" />
+								<h:outputText value="Nova Cidade" style="color: #3c8dbc;" />
 							</h3>
 						</div>
 						<!-- /.box-header -->
 						
 <!-- 						inicio form assunto -->
 						<div class="box-body no-padding">
-							<h:form>
-							<h:outputLabel value="Descrição: " />&nbsp;
-							<p:inputText id="descricao" value="#{assuntoBean.assunto.descricao}"
-								required="true" requiredMessage="Informe o Assunto" size="30">
+							<h:form id="novaCidade">
+							
+							<h:outputLabel value="Nome: " />
+							<p:inputText id="nome" value="#{cidadeBean.cidade.nome}" style="margin-left: 2.5%;"
+								required="true" requiredMessage="Informe o Nome da Cidade" size="30">
 									<f:ajax event="change" />
 							</p:inputText>
+							<p />
+							
+							<h:outputLabel value="Estado: " />
+							<p:inputText id="estado" value="#{cidadeBean.cidade.estado}" style="margin-left: 1.4%;"
+								required="true" requiredMessage="Informe a Sigla do Estado" size="30" title="Somente Sigla" />
+							<p:tooltip for="estado" showEvent="estado" hideEvent="blur" />
+							<p:watermark for="estado" value="Nome" forElement="estado" />
+							<p />
+							
+							<p:fileUpload
+								fileUploadListener="#{fileUploadController.enviarArquivo}"
+								label="Escolher Foto" auto="true"
+								sizeLimit="2000000" fileLimit="1" fileLimitMessage="Sua imagem já foi selecionada"
+								allowTypes="/(\.|\/)(gif|jpe?g|png)$/" dragDropSupport="false"
+								invalidSizeMessage="Tamanha maior que o permitido"
+								invalidFileMessage="Extensão não permitida" uploadLabel="Enviar"
+								cancelLabel="Cancelar" />
+							<p />	
 							
 							<br /><br />
 							<div align="center">
-							<p:commandButton actionLis="#{assuntoBean.cadastrarAssunto}"
-								value="Cadastrar" ajax="false" icon="ui-icon-check" rendered="#{assuntoBean.assunto.id==null}">
+							<p:commandButton 
+								value="Cadastrar" ajax="false" icon="ui-icon-check" rendered="#{cidadeBean.cidade.id==null}">
 									<f:ajax render="@form" />
 							</p:commandButton>
 							
-							<p:commandButton action="#{assuntoBean.editarAssunto}" update=":dataTable:dtAssuntos"
-								value="Editar" ajax="false" icon="ui-icon-pencil" rendered="#{assuntoBean.assunto.id!=null}">
-									<f:ajax render="@form" />
+							<p:commandButton id="btnEditar" actionListener="#{cidadeBean.editarCidade()}" update=":dataTable:dtCidades"
+								value="Editar" icon="ui-icon-pencil" rendered="#{cidadeBean.cidade.id!=null}">
+									<f:ajax execute="@this" render="btnEditar" />
 							</p:commandButton>&nbsp;&nbsp;
 							
-							<p:commandButton action="assunto?faces-redirect=true"
-								value="Cancelar" ajax="false" icon="ui-icon-close" rendered="#{assuntoBean.assunto.id!=null}">
+							<p:commandButton actionListener="#{cidadeBean.cancelar()}"
+								value="Cancelar" ajax="false" icon="ui-icon-close" rendered="#{cidadeBean.cidade.id!=null}">
 									<f:ajax render="@form" />
 							</p:commandButton>
 							</div><br />
 							
-							<p:messages autoUpdate="true" />
 							</h:form>
 						</div>
 <!-- 						fim do form -->
@@ -85,12 +106,12 @@
 								
 <!-- 					solicitação de acesso					 -->
 					<section class="col-lg-6 connectedSortable"> <!-- Box (with bar chart) -->
-					<div class="box box-danger" id="loading-example">
+					<div class="box box-success" id="loading-example">
 						<div class="box-header">
-							<i class="fa fa-th-list" style="color: #f56954;"></i>
+							<i class="fa fa-th-list" style="color: #00a65a;"></i>
 
 							<h3 class="box-title">
-								<h:outputText value="Assuntos" style="color: #f56954;" />
+								<h:outputText value="Cidades" style="color: #00a65a;" />
 									
 							</h3>
 						</div>
@@ -98,22 +119,33 @@
 						<!-- 						inicio tabela de assuntos cadastrados -->
 						<div class="box-body no-padding">
 						<h:form id="dataTable">
-							<h:dataTable id="dtAssuntos" class="table table-bordered table-striped dataTable" aria-describedby="example1_info"
-							value="#{assuntoBean.assuntos}" var="a">
+							<h:dataTable id="dtCidades" class="table table-bordered table-striped dataTable" aria-describedby="example1_info"
+							value="#{cidadeBean.listaDeCidades}" var="c">
 															
 								<p:column>
-									<p:commandLink title="Editar" ajax="false" update=":dataTable:dtAssuntos">
+									<f:facet name="header">Nome</f:facet>
+									<p:commandLink title="Editar" ajax="false" update=":dataTable:dtCidades">
                                    		<i class="fa fa-pencil"></i>
                                    		<f:ajax render="@all" />
-                                   		<f:setPropertyActionListener target="#{assuntoBean.assunto}" value="#{a}" />
+                                   		<f:setPropertyActionListener target="#{cidadeBean.cidade}" value="#{c}" />
                                    	</p:commandLink>&nbsp;&nbsp;
                                    	
                                    	<h:commandLink title="Desativar">	
                                      	<i class="fa fa-trash-o"></i>
                                      </h:commandLink>&nbsp;&nbsp;&nbsp;&nbsp;
                                      
-									<h:outputText value="#{a.descricao}" />
+									<h:outputText value="#{c.nome}" />
 										
+								</p:column>
+								
+								<p:column>
+									<f:facet name="header">Estado</f:facet>
+									<h:outputText value="#{c.estado}" />
+								</p:column>
+								
+								<p:column>
+									<f:facet name="header">ID Foto</f:facet>
+									<h:outputText value="#{c.foto.id}" />
 								</p:column>
 							
 							</h:dataTable>

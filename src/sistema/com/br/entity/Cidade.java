@@ -10,13 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import sistema.com.br.converter.BaseEntity;
 
 @Entity
 @Table(name="tb_cidade")
-public class Cidade implements Serializable, BaseEntity{
+public class Cidade implements Serializable, BaseEntity {
 
 	/**
 	 * 
@@ -30,14 +31,14 @@ public class Cidade implements Serializable, BaseEntity{
 	@Column(name="estado")
 	private String estado;
 	
-	@Column(name="codigo")
-	private String codigo;
-	
 	@Column(name="nome")
 	private String nome;
 	
 	@Column(name="ativo")
 	private Boolean ativo;
+	
+	@OneToOne
+	private Foto foto;
 	
 	@OneToMany(cascade=CascadeType.PERSIST, mappedBy="cidade")
 	private List<Sugestao> sugestoes;
@@ -55,17 +56,8 @@ public class Cidade implements Serializable, BaseEntity{
 	}
 
 	public void setEstado(String estado) {
-		this.estado = estado;
+		this.estado = estado.toUpperCase();
 	}
-	
-	public String getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
-	}
-
 	
 	public String getNome() {
 		return nome;
@@ -91,7 +83,12 @@ public class Cidade implements Serializable, BaseEntity{
 		this.ativo = ativo;
 	}
 
-	
-	
+	public Foto getFoto() {
+		return foto;
+	}
+
+	public void setFoto(Foto foto) {
+		this.foto = foto;
+	}
 	
 }
